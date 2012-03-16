@@ -40,8 +40,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="DLAdmin.cs" />
+    <Compile Include="DLGradAdvisor.cs" />
+    <Compile Include="DLStudent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\StudentAdvising.Common\StudentAdvising.Common.csproj">
+      <Project>{0B4D96ED-9A2D-4B6F-BB87-7B447B2839EB}</Project>
+      <Name>StudentAdvising.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

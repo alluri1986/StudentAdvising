@@ -5,19 +5,30 @@ using System.Text;
 
 namespace StudentAdvising.Common
 {
-     public virtual class CommonBase
+    public class CommonBase
     {
-        virtual int ID { get; set; }
+        public virtual int ID
+        {
+            get
+            {
+                throw new ApplicationException("ID has not been implemented");
+            }
 
-        bool IsActiveFL { get; set; }
+            set
+            {
+                throw new ApplicationException("ID has not been implemented");
+            }
+        }
+        
+        public bool IsActiveFL { get; set; }
 
-        DateTime LastUpdatedDate { get; set; }
+        public DateTime LastUpdatedDate { get; set; }
 
-        DateTime CreationDate { get; set; }
+        public DateTime CreationDate { get; set; }
 
-        int CreatedBy { get; set; }
+        public int CreatedBy { get; set; }
 
-        int LastUpdatedBy { get; set; }
+        public int LastUpdatedBy { get; set; }
 
     }
 }

@@ -5,12 +5,14 @@ using System.Text;
 
 namespace StudentAdvising.Common
 {
-    public class Faculty : Person
+    class SemesterCourse : CommonBase
     {
-     
-        public int PersonID { get; set; }
 
-   
-         
+        public int SemesterID { get; set; }
+
+        public int CourseID { get; set; }
+
+
+
     }
 }
