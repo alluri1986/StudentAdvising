@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+//test
 namespace StudentAdvising.Common
 {
     public class Person : CommonBase
