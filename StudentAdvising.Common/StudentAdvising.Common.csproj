@@ -45,7 +45,6 @@
     <Compile Include="CoursePrerequisite.cs" />
     <Compile Include="Faculty.cs" />
     <Compile Include="GitTest.cs" />
-    <Compile Include="GitTest2.cs" />
     <Compile Include="Helper\SQLHelper.cs" />
     <Compile Include="Person.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -54,6 +53,7 @@
     <Compile Include="Student.cs" />
     <Compile Include="StudentCourse.cs" />
     <Compile Include="test.cs" />
+    <Compile Include="test2.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
