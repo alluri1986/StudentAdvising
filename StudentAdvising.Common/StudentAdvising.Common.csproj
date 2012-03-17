@@ -40,17 +40,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
-    <Compile Include="Class2.cs" />
-    <Compile Include="Class5.cs" />
-    <Compile Include="Class6.cs" />
-    <Compile Include="Class7.cs" />
     <Compile Include="CommonBase.cs" />
     <Compile Include="Course.cs" />
     <Compile Include="CoursePrerequisite.cs" />
     <Compile Include="Faculty.cs" />
-    <Compile Include="GitTest.cs" />
-    <Compile Include="GitTest3.cs" />
     <Compile Include="Helper\SQLHelper.cs" />
     <Compile Include="Person.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -58,12 +51,6 @@
     <Compile Include="SemesterCoursePrerequisite.cs" />
     <Compile Include="Student.cs" />
     <Compile Include="StudentCourse.cs" />
-    <Compile Include="test.cs" />
-    <Compile Include="test2.cs" />
-    <Compile Include="test3.cs" />
-    <Compile Include="test4.cs" />
-    <Compile Include="test5.cs" />
-    <Compile Include="test6.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
