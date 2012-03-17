@@ -49,7 +49,7 @@ namespace StudentAdvising.DLL
                 sb.Append(" IsActiveFL, CreationDate, LastUpdatedDate, CreatedBy, LastUpdatedBy ");
                 sb.Append(" FROM Person p INNER JOIN Student s ");
                 sb.Append(" ON p.ID = s.PersonID");
-                //sb.Append(" WHERE p.ID = " + SqlHelper)
+                //sb.Append(" WHERE p.ID = " + SqlHelper);
             }
             catch( SqlException sqlEx)
             {
