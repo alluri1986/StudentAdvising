@@ -44,6 +44,7 @@
     <Compile Include="Class2.cs" />
     <Compile Include="Class5.cs" />
     <Compile Include="Class6.cs" />
+    <Compile Include="Class7.cs" />
     <Compile Include="CommonBase.cs" />
     <Compile Include="Course.cs" />
     <Compile Include="CoursePrerequisite.cs" />
