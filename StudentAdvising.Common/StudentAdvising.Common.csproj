@@ -45,6 +45,7 @@
     <Compile Include="CoursePrerequisite.cs" />
     <Compile Include="Faculty.cs" />
     <Compile Include="GitTest.cs" />
+    <Compile Include="GitTest2.cs" />
     <Compile Include="Helper\SQLHelper.cs" />
     <Compile Include="Person.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
