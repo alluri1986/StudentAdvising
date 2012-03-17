@@ -44,12 +44,12 @@ namespace StudentAdvising.DLL
             Student student = new Student();
             try
             {
-                sb.Append("SELECT ID,LSUID,FirstName,MiddleName, LastName, DOB, Email, Phone,");
-                sb.Append("DeptID, UserName, Password, TemporaryAddress, HomeAddress,DOJ,IsTransferFL,");
-                sb.Append("IsActiveFL, CreationDate, LastUpdatedDate, CreatedBy, LastUpdatedBy ");
+                sb.Append( "SELECT ID,LSUID,FirstName,MiddleName, LastName, DOB, Email, Phone,");
+                sb.Append(" DeptID, UserName, Password, TemporaryAddress, HomeAddress,DOJ,IsTransferFL,");
+                sb.Append(" IsActiveFL, CreationDate, LastUpdatedDate, CreatedBy, LastUpdatedBy ");
                 sb.Append(" FROM Person p INNER JOIN Student s ");
                 sb.Append(" ON p.ID = s.PersonID");
-                sb.Append(" WHERE p.ID = " + SqlHelper.Safe)
+                sb.Append(" WHERE p.ID = " + SqlHelper)
             }
             catch( SqlException sqlEx)
             {
