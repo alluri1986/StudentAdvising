@@ -44,11 +44,20 @@ namespace StudentAdvising.DLL
             Student student = new Student();
             try
             {
-                sb.Append( "SELECT ID,LSUID,FirstName,MiddleName, LastName, DOB, Email, Phone,");
-                sb.Append(" DeptID, UserName, Password, TemporaryAddress, HomeAddress,DOJ,IsTransferFL,");
-                sb.Append(" IsActiveFL, CreationDate, LastUpdatedDate, CreatedBy, LastUpdatedBy ");
-                sb.Append(" FROM Person p INNER JOIN Student s ");
-                sb.Append(" ON p.ID = s.PersonID");
+                sb.Append( "SELECT p.ID,p.LSUID,p.FirstName,p.MiddleName, p.LastName, p.DOB, p.Email, p.Phone,");
+                sb.Append(" p.DeptID, p.UserName, p.Password, p.TemporaryAddress, p.HomeAddress,s.DOJ,s.IsTransferFL,");
+                sb.Append(" s.IsActiveFL, s.CreationDate, s.LastUpdatedDate, s.CreatedBy, s.LastUpdatedBy ");
+                sb.Append(" FROM Person p INNER JOIN Student s ON p.ID = s.PersonID ");
+                sb.Append(" WHERE s.PersonID = " + studentID );
+
+                using(SqlDataReader dr = SqlHelper.ExecuteReader(connection,CommandType.Text,sb.ToString()))
+                {
+                    if (dr.Read())
+                    {
+                        student.ID = SqlHelper.ToInt32(dr["ID"]);
+                    }
+                }
+               
                 //sb.Append(" WHERE p.ID = " + SqlHelper);
             }
             catch( SqlException sqlEx)
@@ -65,6 +74,7 @@ namespace StudentAdvising.DLL
             {
                 SqlHelper.CloseConnection(connection);
             }
+            return student;
         }
 
     }
