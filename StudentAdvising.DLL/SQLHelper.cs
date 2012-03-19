@@ -17,7 +17,8 @@ namespace StudentAdvising.Common.Helper
     public sealed class SqlHelper
     {
 
-        #region StudentAdvising
+
+        #region StudentAdvising Code
 
         public static SqlConnection CreateConnection()
         {
