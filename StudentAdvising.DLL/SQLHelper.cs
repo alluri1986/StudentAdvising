@@ -24,7 +24,6 @@ namespace StudentAdvising.Common.Helper
         {
             SqlConnection connection = new SqlConnection("DataSource = localhost;Initial Catalog = StudentAdvising;Integrated Security = true");
             
-
             return connection;
         }
 

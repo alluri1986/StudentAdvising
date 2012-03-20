@@ -17,6 +17,8 @@ namespace StudentAdvising.DLL
             SqlConnection connection = SqlHelper.CreateConnection();
             try
             {
+
+
             }
             catch (SqlException sqlEx)
             {
@@ -44,28 +46,46 @@ namespace StudentAdvising.DLL
             Student student = new Student();
             try
             {
-                sb.Append( "SELECT p.ID,p.LSUID,p.FirstName,p.MiddleName, p.LastName, p.DOB, p.Email, p.Phone,");
+                sb.Append(" SELECT p.ID,p.LSUID,p.FirstName,p.MiddleName, p.LastName, p.DOB, p.Email, p.Phone,");
                 sb.Append(" p.DeptID, p.UserName, p.Password, p.TemporaryAddress, p.HomeAddress,s.DOJ,s.IsTransferFL,");
                 sb.Append(" s.IsActiveFL, s.CreationDate, s.LastUpdatedDate, s.CreatedBy, s.LastUpdatedBy ");
                 sb.Append(" FROM Person p INNER JOIN Student s ON p.ID = s.PersonID ");
-                sb.Append(" WHERE s.PersonID = " + studentID );
+                sb.Append(" WHERE s.PersonID = " + studentID);
 
-                using(SqlDataReader dr = SqlHelper.ExecuteReader(connection,CommandType.Text,sb.ToString()))
+                using (SqlDataReader dr = SqlHelper.ExecuteReader(connection, CommandType.Text, sb.ToString()))
                 {
                     if (dr.Read())
                     {
                         student.ID = SqlHelper.ToInt32(dr["ID"]);
+                        student.LSUID = SqlHelper.ToString(dr["LSUID"]);
+                        student.FirstName = SqlHelper.ToString(dr["FirstName"]);
+                        student.MiddleName = SqlHelper.ToString(dr["MiddleName"]);
+                        student.LastName = SqlHelper.ToString(dr["LastName"]);
+                        student.DOB = SqlHelper.ToDateTime(dr["DOB"]);
+                        student.Email = SqlHelper.ToString(dr["Email"]);
+                        student.Phone = SqlHelper.ToString(dr["Phone"]);
+                        student.DeptID = SqlHelper.ToInt32(dr["DeptID"]);
+                        student.UserName = SqlHelper.ToString(dr["UserName"]);
+                        student.Password = SqlHelper.ToString(dr["Password"]);
+                        student.TemporaryAddress = SqlHelper.ToString(dr["TemporaryAddress"]);
+                        student.HomeAddress = SqlHelper.ToString(dr["HomeAddress"]);
+                        student.DOJ = SqlHelper.ToDateTime(dr["DOJ"]);
+                        student.IsTransferFL = SqlHelper.ToBoolean(dr["IsTransferFL"]);
+                        student.IsActiveFL = SqlHelper.ToBoolean(dr["IsActiveFL"]);
+                        student.CreationDate = SqlHelper.ToDateTime(dr["CreationDate"]);
+                        student.LastUpdatedDate = SqlHelper.ToDateTime(dr["LastUpdatedDate"]);
+                        student.CreatedBy = SqlHelper.ToInt32(dr["CreatedBy"]);
+                        student.LastUpdatedBy = SqlHelper.ToInt32(dr["LastUpdatedBy"]);
                     }
                 }
-               
-                //sb.Append(" WHERE p.ID = " + SqlHelper);
+
             }
-            catch( SqlException sqlEx)
+            catch (SqlException sqlEx)
             {
                 SqlHelper.CloseConnection(connection);
                 throw new Exception(this.GetType().FullName + "GetStudent: " + sqlEx.ToString());
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 SqlHelper.CloseConnection(connection);
                 throw new Exception("GetStudent: " + e.ToString());
