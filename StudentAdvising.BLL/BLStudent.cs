@@ -5,7 +5,7 @@ using System.Text;
 
 namespace StudentAdvising.BLL
 {
-    public class Class1
+    class BLStudent
     {
     }
 }
