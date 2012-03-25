@@ -122,6 +122,9 @@ CREATE TABLE Faculty
 CREATE TABLE Student
 (
 	PersonID int PRIMARY KEY FOREIGN KEY REFERENCES Person(ID),
+	AdvisorID int REFERENCES Person(ID) NULL,
+	ApprovalDate datetime NULL,
+	IsApprovedFL bit DEFAULT 0,
 	DOJ datetime,
 	IsTransferFL bit DEFAULT 0,
 	IsActiveFL bit DEFAULT 1 NOT NULL,

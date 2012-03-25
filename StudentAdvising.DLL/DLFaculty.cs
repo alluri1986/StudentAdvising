@@ -8,36 +8,34 @@ using StudentAdvising.Common;
 using StudentAdvising.Common.Helper;
 using System.Collections;
 
+
 namespace StudentAdvising.DLL
 {
-    class DLStudent
+    class DLFaculty
     {
-                                               
-        public Student SaveStudent(Student student)
+        public Faculty SaveFaculty(Faculty faculty)
         {
             SqlConnection connection = SqlHelper.CreateConnection();
             try
             {
-                string spName = "StudentSave";
+                string spName = "FacultySave";
 
                 ArrayList paramList = new ArrayList();
-          
-                //Creating SqlParameter objects to fields in student
+
+                //Creating SqlParameter objects to fields in faculty
                 SqlParameter pID = new SqlParameter("@ID", SqlDbType.Int);
                 SqlParameter pLSUID = new SqlParameter("@LSUID", SqlDbType.NVarChar);
-                SqlParameter pFirstName = new SqlParameter("@FirstName",SqlDbType.NVarChar);
+                SqlParameter pFirstName = new SqlParameter("@FirstName", SqlDbType.NVarChar);
                 SqlParameter pMiddleName = new SqlParameter("@MiddleName", SqlDbType.NVarChar);
                 SqlParameter pLastName = new SqlParameter("@LastName", SqlDbType.NVarChar);
                 SqlParameter pDOB = new SqlParameter("@DOB", SqlDbType.DateTime);
                 SqlParameter pEmail = new SqlParameter("@Email", SqlDbType.NVarChar);
                 SqlParameter pPhone = new SqlParameter("@Phone", SqlDbType.NVarChar);
                 SqlParameter pDeptID = new SqlParameter("@DeptID", SqlDbType.Int);
-                SqlParameter pUserName = new SqlParameter("@UserName",SqlDbType.NVarChar);
-                SqlParameter pPassword = new SqlParameter("@Password",SqlDbType.NVarChar);
-                SqlParameter pTemporaryAddress =  new SqlParameter("@TemporaryAddress", SqlDbType.NVarChar);
+                SqlParameter pUserName = new SqlParameter("@UserName", SqlDbType.NVarChar);
+                SqlParameter pPassword = new SqlParameter("@Password", SqlDbType.NVarChar);
+                SqlParameter pTemporaryAddress = new SqlParameter("@TemporaryAddress", SqlDbType.NVarChar);
                 SqlParameter pHomeAddress = new SqlParameter("@HomeAddress", SqlDbType.NVarChar);
-                SqlParameter pDOJ = new SqlParameter("@DOJ",SqlDbType.DateTime);
-                SqlParameter pIsTranferFL = new SqlParameter("@IsTransferFL",SqlDbType.Bit);
                 SqlParameter pIsActiveFL = new SqlParameter("@IsActiveFL", SqlDbType.Bit);
                 SqlParameter pCreatedBy = new SqlParameter("@CreatedBy", SqlDbType.Int);
                 SqlParameter pLastUpdatedBy = new SqlParameter("@LastUpdatedBy", SqlDbType.Int);
@@ -45,54 +43,52 @@ namespace StudentAdvising.DLL
                 SqlParameter pLastUpdatedDate = new SqlParameter("@LastUpdatedDate", SqlDbType.DateTime);
                 pID.Direction = ParameterDirection.InputOutput;
 
-                pID.Value = student.ID;
-                pLSUID.Value = student.LSUID;
-                pFirstName.Value = student.FirstName;
-                pMiddleName.Value = student.MiddleName;
-                pLastName.Value = student.LastName;
-                pDOB.Value = student.DOB;
-                pEmail.Value = student.Email;
-                pPhone.Value = student.Phone;
-                pDeptID.Value = student.DeptID;
-                pUserName.Value = student.UserName;
-                pPassword.Value = student.Password;
-                pTemporaryAddress.Value = student.TemporaryAddress;
-                pHomeAddress.Value = student.HomeAddress;
-                pDOJ.Value = student.DOJ;
-                pIsTranferFL.Value = student.IsTransferFL;
-                pIsActiveFL.Value = student.IsActiveFL;
-                pCreatedBy.Value = student.CreatedBy;
-                pLastUpdatedBy.Value = student.LastUpdatedBy;
-                pCreationDate.Value = student.CreationDate;
-                pLastUpdatedDate.Value = student.LastUpdatedDate;
+                pID.Value = faculty.ID;
+                pLSUID.Value = faculty.LSUID;
+                pFirstName.Value = faculty.FirstName;
+                pMiddleName.Value = faculty.MiddleName;
+                pLastName.Value = faculty.LastName;
+                pDOB.Value = faculty.DOB;
+                pEmail.Value = faculty.Email;
+                pPhone.Value = faculty.Phone;
+                pDeptID.Value = faculty.DeptID;
+                pUserName.Value = faculty.UserName;
+                pPassword.Value = faculty.Password;
+                pTemporaryAddress.Value = faculty.TemporaryAddress;
+                pHomeAddress.Value = faculty.HomeAddress;
+                pIsActiveFL.Value = faculty.IsActiveFL;
+                pCreatedBy.Value = faculty.CreatedBy;
+                pLastUpdatedBy.Value = faculty.LastUpdatedBy;
+                pCreationDate.Value = faculty.CreationDate;
+                pLastUpdatedDate.Value = faculty.LastUpdatedDate;
 
                 SqlHelper.ExecuteNonQuery(connection, CommandType.StoredProcedure, spName, pID, pLSUID, pFirstName, pMiddleName, pLastName, pDOB, pEmail, pPhone, pDeptID, pUserName,
-                                            pPassword, pTemporaryAddress, pHomeAddress, pDOJ, pIsTranferFL, pIsActiveFL, pCreatedBy, pLastUpdatedBy, pCreationDate, pLastUpdatedDate);
+                                            pPassword, pTemporaryAddress, pHomeAddress, pIsActiveFL, pCreatedBy, pLastUpdatedBy, pCreationDate, pLastUpdatedDate);
 
 
-                student.ID = Convert.ToInt32(pID.Value);
+                faculty.ID = Convert.ToInt32(pID.Value);
 
             }
             catch (SqlException sqlEx)
             {
                 SqlHelper.CloseConnection(connection);
-                throw new Exception("StudentSave: " + sqlEx.ToString());
+                throw new Exception("FacultySave: " + sqlEx.ToString());
             }
             catch (Exception e)
             {
                 SqlHelper.CloseConnection(connection);
-                throw new Exception("StudentSave: " + e.ToString());
+                throw new Exception("FacultySave: " + e.ToString());
             }
             finally
             {
                 SqlHelper.CloseConnection(connection);
             }
 
-            return student;
+            return faculty;
 
         }
 
-        
+
 
     }
 }
