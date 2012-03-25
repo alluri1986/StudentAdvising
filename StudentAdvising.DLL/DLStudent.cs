@@ -19,7 +19,9 @@ namespace StudentAdvising.DLL
             try
             {
                 string spName = "SaveStudent";
-                
+
+                ArrayList paramList = new ArrayList();
+          
                 //Creating SqlParameter objects to fields in student
                 SqlParameter pID = new SqlParameter("@ID", SqlDbType.Int);
                 SqlParameter pLSUID = new SqlParameter("@LSUID", SqlDbType.NVarChar);
@@ -62,13 +64,13 @@ namespace StudentAdvising.DLL
                 pCreatedBy.Value = student.CreatedBy;
                 pLastUpdatedBy.Value = student.LastUpdatedBy;
                 pCreationDate.Value = student.CreationDate;
-                pLastUpdatedDate.Value = student.LastUpdatedDate
+                pLastUpdatedDate.Value = student.LastUpdatedDate;
+
+                SqlHelper.ExecuteNonQuery(connection, CommandType.StoredProcedure, spName, pID, pLSUID, pFirstName, pMiddleName, pLastName, pDOB, pEmail, pPhone, pDeptID, pUserName,
+                                            pPassword, pTemporaryAddress, pHomeAddress, pDOJ, pIsTranferFL, pIsActiveFL, pCreatedBy, pLastUpdatedBy, pCreationDate, pLastUpdatedDate);
 
 
-
-
-
-
+                student.ID = Convert.ToInt32(pID.Value);
 
             }
             catch (SqlException sqlEx)
