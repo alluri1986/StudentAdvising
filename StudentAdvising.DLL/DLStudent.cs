@@ -6,17 +6,68 @@ using System.Linq;
 using System.Text;
 using StudentAdvising.Common;
 using StudentAdvising.Common.Helper;
+using System.Collections;
 
 namespace StudentAdvising.DLL
 {
     class DLStudent
     {
-
+                                               
         public Student SaveStudent(Student student)
         {
             SqlConnection connection = SqlHelper.CreateConnection();
             try
             {
+                string spName = "SaveStudent";
+                
+                //Creating SqlParameter objects to fields in student
+                SqlParameter pID = new SqlParameter("@ID", SqlDbType.Int);
+                SqlParameter pLSUID = new SqlParameter("@LSUID", SqlDbType.NVarChar);
+                SqlParameter pFirstName = new SqlParameter("@FirstName",SqlDbType.NVarChar);
+                SqlParameter pMiddleName = new SqlParameter("@MiddleName", SqlDbType.NVarChar);
+                SqlParameter pLastName = new SqlParameter("@LastName", SqlDbType.NVarChar);
+                SqlParameter pDOB = new SqlParameter("@DOB", SqlDbType.DateTime);
+                SqlParameter pEmail = new SqlParameter("@Email", SqlDbType.NVarChar);
+                SqlParameter pPhone = new SqlParameter("@Phone", SqlDbType.NVarChar);
+                SqlParameter pDeptID = new SqlParameter("@DeptID", SqlDbType.Int);
+                SqlParameter pUserName = new SqlParameter("@UserName",SqlDbType.NVarChar);
+                SqlParameter pPassword = new SqlParameter("@Password",SqlDbType.NVarChar);
+                SqlParameter pTemporaryAddress =  new SqlParameter("@TemporaryAddress", SqlDbType.NVarChar);
+                SqlParameter pHomeAddress = new SqlParameter("@HomeAddress", SqlDbType.NVarChar);
+                SqlParameter pDOJ = new SqlParameter("@DOJ",SqlDbType.DateTime);
+                SqlParameter pIsTranferFL = new SqlParameter("@IsTransferFL",SqlDbType.Bit);
+                SqlParameter pIsActiveFL = new SqlParameter("@IsActiveFL", SqlDbType.Bit);
+                SqlParameter pCreatedBy = new SqlParameter("@CreatedBy", SqlDbType.Int);
+                SqlParameter pLastUpdatedBy = new SqlParameter("@LastUpdatedBy", SqlDbType.Int);
+                SqlParameter pCreationDate = new SqlParameter("@CreationDate", SqlDbType.DateTime);
+                SqlParameter pLastUpdatedDate = new SqlParameter("@LastUpdatedDate", SqlDbType.DateTime);
+                pID.Direction = ParameterDirection.InputOutput;
+
+                pID.Value = student.ID;
+                pLSUID.Value = student.LSUID;
+                pFirstName.Value = student.FirstName;
+                pMiddleName.Value = student.MiddleName;
+                pLastName.Value = student.LastName;
+                pDOB.Value = student.DOB;
+                pEmail.Value = student.Email;
+                pPhone.Value = student.Phone;
+                pDeptID.Value = student.DeptID;
+                pUserName.Value = student.UserName;
+                pPassword.Value = student.Password;
+                pTemporaryAddress.Value = student.TemporaryAddress;
+                pHomeAddress.Value = student.HomeAddress;
+                pDOJ.Value = student.DOJ;
+                pIsTranferFL.Value = student.IsTransferFL;
+                pIsActiveFL.Value = student.IsActiveFL;
+                pCreatedBy.Value = student.CreatedBy;
+                pLastUpdatedBy.Value = student.LastUpdatedBy;
+                pCreationDate.Value = student.CreationDate;
+                pLastUpdatedDate.Value = student.LastUpdatedDate
+
+
+
+
+
 
 
             }
@@ -39,63 +90,7 @@ namespace StudentAdvising.DLL
 
         }
 
-        public Student GetStudent(int studentID)
-        {
-            SqlConnection connection = SqlHelper.CreateConnection();
-            StringBuilder sb = new StringBuilder();
-            Student student = new Student();
-            try
-            {
-                sb.Append(" SELECT p.ID,p.LSUID,p.FirstName,p.MiddleName, p.LastName, p.DOB, p.Email, p.Phone,");
-                sb.Append(" p.DeptID, p.UserName, p.Password, p.TemporaryAddress, p.HomeAddress,s.DOJ,s.IsTransferFL,");
-                sb.Append(" s.IsActiveFL, s.CreationDate, s.LastUpdatedDate, s.CreatedBy, s.LastUpdatedBy ");
-                sb.Append(" FROM Person p INNER JOIN Student s ON p.ID = s.PersonID ");
-                sb.Append(" WHERE s.PersonID = " + studentID);
-
-                using (SqlDataReader dr = SqlHelper.ExecuteReader(connection, CommandType.Text, sb.ToString()))
-                {
-                    if (dr.Read())
-                    {
-                        student.ID = SqlHelper.ToInt32(dr["ID"]);
-                        student.LSUID = SqlHelper.ToString(dr["LSUID"]);
-                        student.FirstName = SqlHelper.ToString(dr["FirstName"]);
-                        student.MiddleName = SqlHelper.ToString(dr["MiddleName"]);
-                        student.LastName = SqlHelper.ToString(dr["LastName"]);
-                        student.DOB = SqlHelper.ToDateTime(dr["DOB"]);
-                        student.Email = SqlHelper.ToString(dr["Email"]);
-                        student.Phone = SqlHelper.ToString(dr["Phone"]);
-                        student.DeptID = SqlHelper.ToInt32(dr["DeptID"]);
-                        student.UserName = SqlHelper.ToString(dr["UserName"]);
-                        student.Password = SqlHelper.ToString(dr["Password"]);
-                        student.TemporaryAddress = SqlHelper.ToString(dr["TemporaryAddress"]);
-                        student.HomeAddress = SqlHelper.ToString(dr["HomeAddress"]);
-                        student.DOJ = SqlHelper.ToDateTime(dr["DOJ"]);
-                        student.IsTransferFL = SqlHelper.ToBoolean(dr["IsTransferFL"]);
-                        student.IsActiveFL = SqlHelper.ToBoolean(dr["IsActiveFL"]);
-                        student.CreationDate = SqlHelper.ToDateTime(dr["CreationDate"]);
-                        student.LastUpdatedDate = SqlHelper.ToDateTime(dr["LastUpdatedDate"]);
-                        student.CreatedBy = SqlHelper.ToInt32(dr["CreatedBy"]);
-                        student.LastUpdatedBy = SqlHelper.ToInt32(dr["LastUpdatedBy"]);
-                    }
-                }
-
-            }
-            catch (SqlException sqlEx)
-            {
-                SqlHelper.CloseConnection(connection);
-                throw new Exception(this.GetType().FullName + "GetStudent: " + sqlEx.ToString());
-            }
-            catch (Exception e)
-            {
-                SqlHelper.CloseConnection(connection);
-                throw new Exception("GetStudent: " + e.ToString());
-            }
-            finally
-            {
-                SqlHelper.CloseConnection(connection);
-            }
-            return student;
-        }
+        
 
     }
 }
