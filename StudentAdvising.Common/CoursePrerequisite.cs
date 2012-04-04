@@ -5,7 +5,7 @@ using System.Text;
 
 namespace StudentAdvising.Common
 {
-    class CoursePrerequisite : CommonBase
+    public class CoursePrerequisite : CommonBase
     {
         public override int ID
         {

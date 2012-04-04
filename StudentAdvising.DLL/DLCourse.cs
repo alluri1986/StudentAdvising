@@ -7,7 +7,7 @@ using System.Data.SqlClient;
 using StudentAdvising.Common;
 using StudentAdvising.Common.Helper;
 using System.Collections;
-using System.Data.SqlClient;
+
 
 namespace StudentAdvising.DLL
 {
@@ -46,7 +46,7 @@ namespace StudentAdvising.DLL
                 pName.Value		            =       course.Name;		
                 pAbbreviation.Value         =       course.Abbreviation;
                 pDescription.Value          =       course.Description;    	
-                pCredits.Value              =       course.credits;
+                pCredits.Value              =       course.Credits;
                 pDepartmentID.Value         =       course.DepartmentID;
                 pEnglishProficiencyFL.Value =       course.EnglishProficiencyFL;
                 pIsMandatoryFL.Value        =       course.IsMandatoryFL;
