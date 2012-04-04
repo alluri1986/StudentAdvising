@@ -44,9 +44,17 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\StudentAdvising.Common\StudentAdvising.Common.csproj">
+      <Project>{0B4D96ED-9A2D-4B6F-BB87-7B447B2839EB}</Project>
+      <Name>StudentAdvising.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\StudentAdvising.DLL\StudentAdvising.DLL.csproj">
       <Project>{9EE95B10-F3C9-418A-B178-A8E4A0079006}</Project>
       <Name>StudentAdvising.DLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\StudentAdvising.IBLL\StudentAdvising.IBLL.csproj">
+      <Project>{53DC6E53-85CF-4357-AE6A-4617ED087859}</Project>
+      <Name>StudentAdvising.IBLL</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
