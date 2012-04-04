@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentAdvisingDatabase", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentAdvising.Common", "StudentAdvising.Common\StudentAdvising.Common.csproj", "{0B4D96ED-9A2D-4B6F-BB87-7B447B2839EB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentAdvising.IBLL", "StudentAdvising.IBLL\StudentAdvising.IBLL.csproj", "{53DC6E53-85CF-4357-AE6A-4617ED087859}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +39,10 @@ Global
 		{0B4D96ED-9A2D-4B6F-BB87-7B447B2839EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0B4D96ED-9A2D-4B6F-BB87-7B447B2839EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0B4D96ED-9A2D-4B6F-BB87-7B447B2839EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53DC6E53-85CF-4357-AE6A-4617ED087859}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53DC6E53-85CF-4357-AE6A-4617ED087859}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53DC6E53-85CF-4357-AE6A-4617ED087859}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53DC6E53-85CF-4357-AE6A-4617ED087859}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
