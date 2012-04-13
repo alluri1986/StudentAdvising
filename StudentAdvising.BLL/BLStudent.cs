@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using StudentAdvising.DLL;
 using StudentAdvising.Common;
-
+using StudentAdvising.DLL;
 
 namespace StudentAdvising.BLL
 {

@@ -10,7 +10,7 @@ using System.Collections;
 
 namespace StudentAdvising.DLL
 {
-    public class DLStudent
+   public class DLStudent
     {
                                                
         public Student SaveStudent(Student student)
