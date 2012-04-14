@@ -1,5 +1,4 @@
 ﻿
-
 CREATE TABLE LuDepartment
 (
 	ID int PRIMARY KEY IDENTITY(1,1),
@@ -97,8 +96,8 @@ CREATE TABLE Person
 	Email nvarchar(200) NULL,
 	Phone nvarchar(200) NULL,
 	DeptID int FOREIGN KEY REFERENCES LUDepartment(ID),
-	UserName nvarchar(100)  NOT NULL,
-	[Password] nvarchar(200)  NOT NULL,
+	UserName nvarchar(100)   NULL,
+	[Password] nvarchar(200)   NULL,
 	TemporaryAddress nvarchar(2000)NULL,
 	HomeAddress nvarchar(200) NULL,
 	IsActiveFL bit DEFAULT 1 NOT NULL,
@@ -125,7 +124,7 @@ CREATE TABLE Student
 	AdvisorID int REFERENCES Person(ID) NULL,
 	ApprovalDate datetime NULL,
 	IsApprovedFL bit DEFAULT 0,
-	DOJ datetime,
+	JoiningSemesterID int FOREIGN KEY REFERENCES LuSemester(ID)NOT NULL,
 	IsTransferFL bit DEFAULT 0,
 	IsActiveFL bit DEFAULT 1 NOT NULL,
 	CreationDate datetime DEFAULT GETUTCDATE() NOT NULL,
@@ -147,3 +146,5 @@ CREATE TABLE StudentCourse
 	CreatedBy int NOT NULL,
 	LastUpdatedBy int NOT NULL,
 )
+
+----
