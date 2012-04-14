@@ -12,8 +12,8 @@ namespace StudentAdvising.Common
     [DataContract]
     public class Student : Person
     {
-        [DataMember]
-        public int PersonID { get; set; }
+        //[DataMember]
+        //public int PersonID { get; set; }
 
         [DataMember]
         public DateTime DOJ { get; set; }
