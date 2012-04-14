@@ -22,7 +22,7 @@ namespace StudentAdvising.Common.Helper
 
         public static SqlConnection CreateConnection()
         {
-            SqlConnection connection = new SqlConnection("DataSource = localhost;Initial Catalog = StudentAdvising;Integrated Security = true");
+            SqlConnection connection = new SqlConnection("Data Source = localhost;Initial Catalog = StudentAdvising;Integrated Security = true");
             
             return connection;
         }
