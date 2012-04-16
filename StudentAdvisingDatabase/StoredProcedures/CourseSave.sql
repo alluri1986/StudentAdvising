@@ -11,7 +11,7 @@ CREATE PROCEDURE [dbo].[CourseSave]
 	@Description    		nvarchar(200),
 	@Credits				int,
 	@DepartmentID			int,
-	@EnglishProficiencyFL		bit,
+	@EnglishProficiencyFL	bit,
 	@IsMandatoryFL			bit,
 	@IsElectiveFL			bit,
 	@IsActiveFL				bit,

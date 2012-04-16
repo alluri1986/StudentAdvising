@@ -46,6 +46,7 @@
     <Content Include="StoredProcedures\CourseSave.sql" />
     <Content Include="StoredProcedures\FacultySave.sql" />
     <Content Include="StoredProcedures\PersonSave.sql" />
+    <Content Include="StoredProcedures\SearchStudent.sql" />
     <Content Include="StoredProcedures\SemesterCoursePrerequisiteSave.sql" />
     <Content Include="StoredProcedures\SemesterCourseSave.sql" />
     <Content Include="StoredProcedures\StudentCourseSave.sql" />
