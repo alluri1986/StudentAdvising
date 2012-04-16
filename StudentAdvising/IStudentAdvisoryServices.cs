@@ -15,15 +15,25 @@ namespace StudentAdvising
     public interface IStudentAdvisoryServices
     {
 
-        [OperationContract]
-        string GetData(int value);
+        //[OperationContract]
+        //string GetData(int value);
 
-       [OperationContract]
-        CompositeType GetDataUsingDataContract(CompositeType composite);
+        //[OperationContract]
+        //CompositeType GetDataUsingDataContract(CompositeType composite);
 
         // TODO: Add your service operations here
         [OperationContract]
         Student SaveStudentDetails(Student student);
+
+        [OperationContract]
+        List<Student> SearchStudent(string lastName, string email);
+
+        [OperationContract]
+        Course SaveCourseDetails(Course course);
+
+        [OperationContract]
+        List<CoursePrerequisite> SaveCoursePrerequisite(List<CoursePrerequisite> coursePrerequisite);
+
     }
 
 

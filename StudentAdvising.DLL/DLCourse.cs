@@ -11,9 +11,9 @@ using System.Collections;
 
 namespace StudentAdvising.DLL
 {
-    class DLCourse
+    public class DLCourse
     {
-        public Course saveCourse(Course course)
+        public Course SaveCourse(Course course)
         {
 
             SqlConnection connection = SqlHelper.CreateConnection();

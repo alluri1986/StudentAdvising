@@ -40,6 +40,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BLCourse.cs" />
+    <Compile Include="BLCoursePrerequisite.cs" />
+    <Compile Include="BLSearchStudent.cs" />
     <Compile Include="BLStudent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

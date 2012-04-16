@@ -32,6 +32,48 @@ namespace StudentAdvising.Common.Helper
             connection.Close();
         }
 
+
+        public static int ToInt32(Object value)
+        {
+            if(value != null)
+            {
+                return Convert.ToInt32(value);
+            }
+
+            return Int32.MinValue;
+        }
+
+        public static string ToString(Object value)
+        {
+            if (value != null)
+            {
+                return Convert.ToString(value);
+            }
+
+            return "";
+        }
+
+        public static DateTime ToDateTime(Object value)
+        {
+            if (value != null)
+            {
+                return Convert.ToDateTime(value);
+            }
+            return DateTime.MinValue;
+        }
+
+         
+
+        public static bool ToBool(Object value)
+        {
+            if (value != null)
+            {
+                return Convert.ToBoolean(value);
+            }
+
+            return true;
+        }
+
         #endregion
 
         #region private utility methods & constructors

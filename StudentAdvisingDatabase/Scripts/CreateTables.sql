@@ -33,7 +33,7 @@ CREATE TABLE Course
 	[Description] nvarchar(200) NULL,
 	Credits int NOT NULL,
 	DepartmentID int FOREIGN KEY REFERENCES LuDepartment(ID) NOT NULL,
-	EnglishProfiencyFL bit DEFAULT 1 NOT NULL,
+	EnglishProficiencyFL bit DEFAULT 1 NOT NULL,
 	IsMandatoryFL bit NOT NULL DEFAULT 1,
 	IsElectiveFL bit NOT NULL DEFAULT 1,
 	IsActiveFL bit DEFAULT 1 NOT NULL,

@@ -19,6 +19,7 @@ namespace StudentAdvising.DLL
             try
             {
                 string spName = "StudentSave";
+                
 
                 ArrayList paramList = new ArrayList();
           
@@ -36,7 +37,10 @@ namespace StudentAdvising.DLL
                 SqlParameter pPassword = new SqlParameter("@Password",SqlDbType.NVarChar);
                 SqlParameter pTemporaryAddress =  new SqlParameter("@TemporaryAddress", SqlDbType.NVarChar);
                 SqlParameter pHomeAddress = new SqlParameter("@HomeAddress", SqlDbType.NVarChar);
-                SqlParameter pDOJ = new SqlParameter("@DOJ",SqlDbType.DateTime);
+                SqlParameter pAdvisorID = new SqlParameter("@AdvisorID", SqlDbType.Int);
+                SqlParameter pApprovalDate = new SqlParameter("@ApprovalDate", SqlDbType.DateTime);
+                SqlParameter pIsApprovedFL = new SqlParameter("@IsApprovedFL", SqlDbType.Bit);
+                SqlParameter pJoiningSemesterID = new SqlParameter("@JoiningSemesterID", SqlDbType.Int);
                 SqlParameter pIsTranferFL = new SqlParameter("@IsTransferFL",SqlDbType.Bit);
                 SqlParameter pIsActiveFL = new SqlParameter("@IsActiveFL", SqlDbType.Bit);
                 SqlParameter pCreatedBy = new SqlParameter("@CreatedBy", SqlDbType.Int);
@@ -58,7 +62,10 @@ namespace StudentAdvising.DLL
                 pPassword.Value = student.Password;
                 pTemporaryAddress.Value = student.TemporaryAddress;
                 pHomeAddress.Value = student.HomeAddress;
-                pDOJ.Value = student.DOJ;
+                pAdvisorID.Value = student.AdvisorID;
+                pJoiningSemesterID.Value = student.JoiningSemesterID;
+                pApprovalDate.Value = student.ApprovalDate;
+                pIsApprovedFL.Value = student.IsApprovedFL;
                 pIsTranferFL.Value = student.IsTransferFL;
                 pIsActiveFL.Value = student.IsActiveFL;
                 pCreatedBy.Value = student.CreatedBy;
@@ -67,7 +74,7 @@ namespace StudentAdvising.DLL
                 pLastUpdatedDate.Value = student.LastUpdatedDate;
 
                 SqlHelper.ExecuteNonQuery(connection, CommandType.StoredProcedure, spName, pID, pLSUID, pFirstName, pMiddleName, pLastName, pDOB, pEmail, pPhone, pDeptID, pUserName,
-                                            pPassword, pTemporaryAddress, pHomeAddress, pDOJ, pIsTranferFL, pIsActiveFL, pCreatedBy, pLastUpdatedBy, pCreationDate, pLastUpdatedDate);
+                                            pPassword, pTemporaryAddress, pHomeAddress, pAdvisorID,pApprovalDate ,pIsApprovedFL,pJoiningSemesterID, pIsTranferFL, pIsActiveFL, pCreatedBy, pLastUpdatedBy, pCreationDate, pLastUpdatedDate);
 
 
                 student.ID = Convert.ToInt32(pID.Value);
@@ -92,7 +99,124 @@ namespace StudentAdvising.DLL
 
         }
 
+        public Student GetStudent(int studentID)
+        {
+            SqlConnection connection = SqlHelper.CreateConnection();
+            StringBuilder sb = new StringBuilder();
+            Student st = new Student();
+            try
+            {
+              //Creating SqlParameter objects to fields in student
+                sb.Append("SELECT p.ID,p.FirstName,p.LastName,p.MiddleName,p.LSUID,p.Email,s.JoiningSemesterID,p.IsActiveFL,IsTransferFL,IsApprovedFL");
+	            sb.Append("FROM Person p INNER JOIN Student s  ON s.PersonID = p.ID WHERE ID =  " + studentID);
+
+               using(SqlDataReader dr = SqlHelper.ExecuteReader(connection,CommandType.Text,sb.ToString()))
+                {
+                    if (dr.Read())
+                    {
+                        st.ID = SqlHelper.ToInt32(dr["ID"]);
+                        st.FirstName = SqlHelper.ToString(dr["FirstName"]);
+                        st.LastName = SqlHelper.ToString(dr["LastName"]);
+                        st.MiddleName = SqlHelper.ToString(dr["MiddleName"]);
+                        st.LSUID = SqlHelper.ToString(dr["LSUID"]);
+                        st.Email = SqlHelper.ToString(dr["Email"]);
+                        st.DeptID = SqlHelper.ToInt32(dr["DeptID"]);
+                        st.JoiningSemesterID = SqlHelper.ToInt32(dr["JoiningSemesterID"]);
+                        st.IsActiveFL = SqlHelper.ToBool(dr["IsActiveFL"]);
+                        st.IsTransferFL = SqlHelper.ToBool(dr["IsTransferFL"]);
+                        st.IsApprovedFL = SqlHelper.ToBool(dr["IsApprovedFL"]);
+                        st.ApprovalDate = SqlHelper.ToDateTime(dr["ApprovalDate"]);
+                        st.AdvisorID = SqlHelper.ToInt32(dr["AdvisorID"]);
+                        st.Phone = SqlHelper.ToString(dr["Phone"]);
+                        st.UserName = SqlHelper.ToString(dr["UserName"]);
+                        st.Password = SqlHelper.ToString(dr["Password"]);
+                        st.HomeAddress = SqlHelper.ToString(dr["HomeAddress"]);
+                        st.TemporaryAddress = SqlHelper.ToString(dr["TemporaryAddress"]);
+                        st.CreatedBy = SqlHelper.ToInt32(dr["CreatedBy"]);
+                        st.LastUpdatedBy = SqlHelper.ToInt32(dr["LastUpdatedBy"]);
+                        st.CreationDate = SqlHelper.ToDateTime(dr["CreationDate"]);
+                        st.LastUpdatedDate = SqlHelper.ToDateTime(dr["LastUpdatedDate"]);
+
+                    }               
+                }
+            }
+            catch (SqlException sqlEx)
+            {
+                SqlHelper.CloseConnection(connection);
+                throw new Exception("GetStudentDetails: " + sqlEx.ToString());
+            }
+            catch (Exception e)
+            {
+                SqlHelper.CloseConnection(connection);
+                throw new Exception("GetStudentDetails: " + e.ToString());
+            }
+            finally
+            {
+                SqlHelper.CloseConnection(connection);
+            }
+            return st;
+        }
+
+        public List<Student> SearchStudent(string lastName,string email)
+        {
+            SqlConnection connection = SqlHelper.CreateConnection();
+            List<Student> students = new List<Student>();
+            try
+            {
+                SqlParameter pLastName = new SqlParameter("@LastName",SqlDbType.NVarChar);
+                SqlParameter pEmail = new SqlParameter("@Email",SqlDbType.NVarChar);
+                pLastName.Value = lastName;
+                pEmail.Value = email;
+                string spName = "SearchStudent";
+                using(SqlDataReader dr = SqlHelper.ExecuteReader(connection,CommandType.StoredProcedure,spName,pLastName,pEmail))
+                {
+
+                    while (dr.Read())
+                    {
+                            Student st = new Student();
+                            st.ID = SqlHelper.ToInt32(dr["ID"]);
+                            st.FirstName = SqlHelper.ToString(dr["FirstName"]);
+                            st.LastName = SqlHelper.ToString(dr["LastName"]);
+                            st.MiddleName = SqlHelper.ToString(dr["MiddleName"]);
+                            st.LSUID = SqlHelper.ToString(dr["LSUID"]);
+                            st.Email = SqlHelper.ToString(dr["Email"]);
+                            st.DeptID = SqlHelper.ToInt32(dr["DeptID"]);
+                            st.JoiningSemesterID = SqlHelper.ToInt32(dr["JoiningSemesterID"]);
+                            st.IsActiveFL = SqlHelper.ToBool(dr["IsActiveFL"]);
+                            st.IsTransferFL = SqlHelper.ToBool(dr["IsTransferFL"]);
+                            st.IsApprovedFL = SqlHelper.ToBool(dr["IsApprovedFL"]);
+                            st.ApprovalDate = SqlHelper.ToDateTime(dr["ApprovalDate"]);
+                            st.AdvisorID = SqlHelper.ToInt32(dr["AdvisorID"]);
+                            st.Phone = SqlHelper.ToString(dr["Phone"]);
+                            st.UserName = SqlHelper.ToString(dr["UserName"]);
+                            st.Password = SqlHelper.ToString(dr["Password"]);
+                            st.HomeAddress = SqlHelper.ToString(dr["HomeAddress"]);
+                            st.TemporaryAddress = SqlHelper.ToString(dr["TemporaryAddress"]);
+                            st.CreatedBy = SqlHelper.ToInt32(dr["CreatedBy"]);
+                            st.LastUpdatedBy = SqlHelper.ToInt32(dr["LastUpdatedBy"]);
+                            st.CreationDate = SqlHelper.ToDateTime(dr["CreationDate"]);
+                            st.LastUpdatedDate = SqlHelper.ToDateTime(dr["LastUpdatedDate"]);
+                            students.Add(st);
+                    }
+                }
+
+            }
+            catch(SqlException sqlEx)
+            {
+                SqlHelper.CloseConnection(connection);
+                throw new Exception("SearchStudent: " + sqlEx.ToString());
+            }
+            catch (Exception Ex)
+            {
+                SqlHelper.CloseConnection(connection);
+                throw new Exception("SearchStudent: " + Ex.ToString());
+            }
+
+            return students;
+        }
         
+
+
 
     }
 }

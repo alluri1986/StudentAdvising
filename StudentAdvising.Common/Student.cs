@@ -16,10 +16,23 @@ namespace StudentAdvising.Common
         //public int PersonID { get; set; }
 
         [DataMember]
-        public DateTime DOJ { get; set; }
+        public int JoiningSemesterID { get; set; }
 
         [DataMember]
         public bool IsTransferFL { get; set; }
+
+        [DataMember]
+        public int AdvisorID { get; set; }
+
+        [DataMember]
+        public DateTime ApprovalDate { get; set; }
+        
+        [DataMember]
+        public bool IsApprovedFL { get; set; }
+
+       
+            
+        	
 
     }
 }

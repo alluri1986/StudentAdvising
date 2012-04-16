@@ -9,16 +9,18 @@ namespace StudentAdvising.Common
     [DataContract]
     public class Course : CommonBase
     {
+        private int iD = Int32.MinValue;
+
         [DataMember]
         public override int ID
         {
             get
             {
-                return base.ID;
+                return iD;
             }
             set
             {
-                base.ID = value;
+                iD = value;
             }
         }
 

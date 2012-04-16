@@ -83,6 +83,10 @@
       <Project>{0B4D96ED-9A2D-4B6F-BB87-7B447B2839EB}</Project>
       <Name>StudentAdvising.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\StudentAdvising.DLL\StudentAdvising.DLL.csproj">
+      <Project>{9EE95B10-F3C9-418A-B178-A8E4A0079006}</Project>
+      <Name>StudentAdvising.DLL</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

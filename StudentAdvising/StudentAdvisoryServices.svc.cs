@@ -15,23 +15,23 @@ namespace StudentAdvising
     public class StudentAdvisoryServices : IStudentAdvisoryServices
     {
       // [OperationContract]
-        public string GetData(int value)
-        {
-            return string.Format("You entered: {0}", value);
-        }
+        //public string GetData(int value)
+        //{
+        //    return string.Format("You entered: {0}", value);
+        //}
 
-        public CompositeType GetDataUsingDataContract(CompositeType composite)
-        {
-            if (composite == null)
-            {
-                throw new ArgumentNullException("composite");
-            }
-            if (composite.BoolValue)
-            {
-                composite.StringValue += "Suffix";
-            }
-            return composite;
-        }
+        //public CompositeType GetDataUsingDataContract(CompositeType composite)
+        //{
+        //    if (composite == null)
+        //    {
+        //        throw new ArgumentNullException("composite");
+        //    }
+        //    if (composite.BoolValue)
+        //    {
+        //        composite.StringValue += "Suffix";
+        //    }
+        //    return composite;
+        //}
 
         //[OperationContract]
         public Student SaveStudentDetails(Student student)
@@ -39,6 +39,30 @@ namespace StudentAdvising
             BLStudent blStudent = new BLStudent();
             blStudent.SaveStudent(student);
             return student;
+        }
+
+        public List<Student> SearchStudent(string lastName, string email)
+        {
+             BLStudent blStudent = new BLStudent();
+             return blStudent.SearchStudent(lastName,email);
+           
+        }
+
+        public Course SaveCourseDetails(Course course)
+        {
+            BLCourse blCourse = new BLCourse();
+            blCourse.SaveCourse(course);
+            return course;
+        }
+
+
+        public List<CoursePrerequisite> SaveCoursePrerequisite(List<CoursePrerequisite> coursePrerequisite)
+        {
+            BLCoursePrerequisite blCoursePrerequisite = new BLCoursePrerequisite();
+            //CoursePrerequisite[] array1 ;
+            
+            blCoursePrerequisite.SaveCoursePrerequisite(coursePrerequisite);
+            return coursePrerequisite;
         }
     }
 }

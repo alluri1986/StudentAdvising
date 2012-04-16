@@ -40,7 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CoursePrerequisiteSave.cs" />
+    <Compile Include="DLCoursePrerequisite.cs" />
     <Compile Include="DLAdmin.cs" />
     <Compile Include="DLCourse.cs" />
     <Compile Include="DLFaculty.cs" />

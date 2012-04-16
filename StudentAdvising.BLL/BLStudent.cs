@@ -41,5 +41,19 @@ namespace StudentAdvising.BLL
             return student;
         }
 
+         public List<Student> SearchStudent(string lastName, string email)
+        {
+            try
+            {
+                return GetDLStudent().SearchStudent(lastName,email);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message.ToString());
+            }
+           
+
+        }
+
     }
 }

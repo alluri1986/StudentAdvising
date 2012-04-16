@@ -10,12 +10,13 @@ using System.Collections;
 
 namespace StudentAdvising.DLL
 {
-    class CoursePrerequisiteSave
+   public class DLCoursePrerequisite
     {
 
-        public void SaveCoursePrerequisiteSave(CoursePrerequisite coursePrerequisite)
+       public void SaveCoursePrerequisite(List<CoursePrerequisite> coursePreReq)
         {
             SqlConnection connection = SqlHelper.CreateConnection();
+            CoursePrerequisite coursePrerequisite = new CoursePrerequisite();
             try
             {
                 string spName = "CoursePrerequisiteSave";
@@ -31,21 +32,29 @@ namespace StudentAdvising.DLL
                 SqlParameter pLastUpdatedBy = new SqlParameter("@LastUpdatedBy", SqlDbType.Int);
                 SqlParameter pCreationDate = new SqlParameter("@CreationDate", SqlDbType.DateTime);
                 SqlParameter pLastUpdatedDate = new SqlParameter("@LastUpdatedDate", SqlDbType.DateTime);
+                int i = 0;
+
+                for (i = 0; i < coursePreReq.Count; i++)
+                {
+
+                    coursePrerequisite.CreationDate = DateTime.UtcNow;
+                    coursePrerequisite.LastUpdatedDate = DateTime.UtcNow;
+
+                    pCourseID.Value = coursePrerequisite.CourseID;
+                    pPreReqID.Value = coursePrerequisite.PreReqID;
+                    pIsDependencyFL.Value = coursePrerequisite.IsDependencyFL;
+                    pIsActiveFL.Value = coursePrerequisite.IsActiveFL;
+                    pCreationDate.Value = coursePrerequisite.CreationDate;
+                    pLastUpdatedDate.Value = coursePrerequisite.LastUpdatedDate;
+                    pCreatedBy.Value = coursePrerequisite.CreatedBy;
+                    pLastUpdatedBy.Value = coursePrerequisite.LastUpdatedBy;
 
 
-                pCourseID.Value = coursePrerequisite.CourseID;
-                pPreReqID.Value = coursePrerequisite.PreReqID;
-                pIsDependencyFL.Value = coursePrerequisite.IsDependencyFL;
-                pIsActiveFL.Value = coursePrerequisite.IsActiveFL;
-                pCreationDate.Value = coursePrerequisite.CreationDate;
-                pLastUpdatedDate.Value = coursePrerequisite.LastUpdatedDate;
-                pCreatedBy.Value = coursePrerequisite.CreatedBy;
-                pLastUpdatedBy.Value = coursePrerequisite.LastUpdatedBy;
 
+                    SqlHelper.ExecuteNonQuery(connection, CommandType.StoredProcedure, spName, pCourseID, pPreReqID, pIsDependencyFL,
+                        pIsActiveFL, pCreationDate, pLastUpdatedDate, pCreatedBy, pLastUpdatedBy);
 
-                SqlHelper.ExecuteNonQuery(connection, CommandType.StoredProcedure, spName, pCourseID, pPreReqID, pIsDependencyFL,
-                    pIsActiveFL, pCreationDate, pLastUpdatedDate, pCreatedBy, pLastUpdatedBy);
-
+                }
 
             }
             catch (SqlException sqlEx)
