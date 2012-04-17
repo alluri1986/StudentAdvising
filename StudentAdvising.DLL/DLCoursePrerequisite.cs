@@ -16,7 +16,7 @@ namespace StudentAdvising.DLL
        public void SaveCoursePrerequisite(List<CoursePrerequisite> coursePreReq)
         {
             SqlConnection connection = SqlHelper.CreateConnection();
-            CoursePrerequisite coursePrerequisite = new CoursePrerequisite();
+            //CoursePrerequisite coursePrerequisite = new CoursePrerequisite();
             try
             {
                 string spName = "CoursePrerequisiteSave";
@@ -32,11 +32,11 @@ namespace StudentAdvising.DLL
                 SqlParameter pLastUpdatedBy = new SqlParameter("@LastUpdatedBy", SqlDbType.Int);
                 SqlParameter pCreationDate = new SqlParameter("@CreationDate", SqlDbType.DateTime);
                 SqlParameter pLastUpdatedDate = new SqlParameter("@LastUpdatedDate", SqlDbType.DateTime);
-                int i = 0;
+                
 
-                for (i = 0; i < coursePreReq.Count; i++)
-                {
-
+                
+                    foreach (CoursePrerequisite coursePrerequisite in coursePreReq)
+                    {
                     coursePrerequisite.CreationDate = DateTime.UtcNow;
                     coursePrerequisite.LastUpdatedDate = DateTime.UtcNow;
 

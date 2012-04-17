@@ -7,14 +7,13 @@ using System.Runtime.Serialization;
 namespace StudentAdvising.Common
 {
     [DataContract]
-    public class SemesterCourse : CommonBase
+    class Semester
     {
         [DataMember]
-        public int SemesterID { get; set; }
+        public string ID { get; set; }
 
         [DataMember]
-        public int CourseID { get; set; }
-
+        public string Name { get; set; }
 
 
     }

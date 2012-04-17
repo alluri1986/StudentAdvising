@@ -5,6 +5,7 @@ using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.ServiceModel.Web;
 using System.Text;
+using System.Collections;
 
 using StudentAdvising.Common;
 
@@ -23,7 +24,16 @@ namespace StudentAdvising
 
         // TODO: Add your service operations here
         [OperationContract]
+        Hashtable getLuSemester(); 
+
+        [OperationContract]
         Student SaveStudentDetails(Student student);
+
+        [OperationContract]
+        Faculty SaveFacultyDetails(Faculty faculty);
+
+        [OperationContract]
+        List<Faculty> GetFaculty();
 
         [OperationContract]
         List<Student> SearchStudent(string lastName, string email);
@@ -34,6 +44,9 @@ namespace StudentAdvising
         [OperationContract]
         List<CoursePrerequisite> SaveCoursePrerequisite(List<CoursePrerequisite> coursePrerequisite);
 
+        [OperationContract]
+        bool SaveSemesterCourse(List<SemesterCourse> semesterCourses);
+ 
     }
 
 

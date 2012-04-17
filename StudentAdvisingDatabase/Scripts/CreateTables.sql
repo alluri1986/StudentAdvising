@@ -75,13 +75,14 @@ CREATE TABLE SemesterCoursePrerequisite
 (
 	CourseID int  FOREIGN KEY REFERENCES SemesterCourse(ID),
 	PreReqID int FOREIGN KEY REFERENCES Course(ID) NOT NULL,
+	SemesterID int FOREIGN KEY REFERENCES LuSemester(ID) NOT NULL,
 	IsDependencyFL bit DEFAULT 0 NOT NULL,
 	IsActiveFL bit DEFAULT 1 NOT NULL,
 	CreationDate datetime DEFAULT GETUTCDATE() NOT NULL,
 	LastUpdatedDate datetime DEFAULT GETUTCDATE() NOT NULL,
 	CreatedBy int NOT NULL,
 	LastUpdatedBy int NOT NULL,
-	CONSTRAINT PK_SemesterCoursePrerequiste PRIMARY KEY (CourseID,PreReqID)
+	CONSTRAINT PK_SemesterCoursePrerequiste PRIMARY KEY (CourseID,PreReqID,SemesterID)
 )
 
 

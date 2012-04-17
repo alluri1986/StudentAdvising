@@ -9,6 +9,8 @@ namespace StudentAdvising.Common
     [DataContract]
     public class Course : CommonBase
     {
+
+
         private int iD = Int32.MinValue;
 
         [DataMember]
@@ -23,6 +25,8 @@ namespace StudentAdvising.Common
                 iD = value;
             }
         }
+
+   
 
         [DataMember]
         public string Name { get; set; }

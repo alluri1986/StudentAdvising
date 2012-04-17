@@ -45,8 +45,10 @@
     <Compile Include="DLCourse.cs" />
     <Compile Include="DLFaculty.cs" />
     <Compile Include="DLGradAdvisor.cs" />
+    <Compile Include="DLSemester.cs" />
     <Compile Include="DLStudent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="DLSemesterCourse.cs" />
     <Compile Include="SQLHelper.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -32,6 +32,7 @@ namespace StudentAdvising.BLL
             {
                 student.CreationDate = DateTime.UtcNow;
                 student.LastUpdatedDate = DateTime.UtcNow;
+                
                 GetDLStudent().SaveStudent(student);
             }
             catch(Exception ex)

@@ -6,6 +6,7 @@ using System.ServiceModel;
 using System.ServiceModel.Web;
 using System.Text;
 using StudentAdvising.BLL;
+using StudentAdvising.DLL;
 using StudentAdvising.Common;
 
 namespace StudentAdvising
@@ -34,6 +35,14 @@ namespace StudentAdvising
         //}
 
         //[OperationContract]
+
+        public System.Collections.Hashtable getLuSemester()
+        {
+            DLSemester dlSemester = new DLSemester();
+            return dlSemester.getLuSemester();
+        }
+
+
         public Student SaveStudentDetails(Student student)
         {
             BLStudent blStudent = new BLStudent();
@@ -48,6 +57,21 @@ namespace StudentAdvising
            
         }
 
+        public Faculty SaveFacultyDetails(Faculty faculty)
+        {
+            BLFaculty blFaculty = new BLFaculty();
+            blFaculty.SaveFaculty(faculty);
+            return faculty;
+        }
+
+        public List<Faculty> GetFaculty()
+        {
+            BLFaculty blfaculty = new BLFaculty();
+
+            return blfaculty.GetFaculty();
+
+        }
+
         public Course SaveCourseDetails(Course course)
         {
             BLCourse blCourse = new BLCourse();
@@ -60,9 +84,19 @@ namespace StudentAdvising
         {
             BLCoursePrerequisite blCoursePrerequisite = new BLCoursePrerequisite();
             //CoursePrerequisite[] array1 ;
+
+            return blCoursePrerequisite.SaveCoursePrerequisite(coursePrerequisite);
             
-            blCoursePrerequisite.SaveCoursePrerequisite(coursePrerequisite);
-            return coursePrerequisite;
         }
+
+
+        public bool SaveSemesterCourse(List<SemesterCourse> semesterCourses)
+        {
+
+            return true;
+        }
+
+
+        
     }
 }

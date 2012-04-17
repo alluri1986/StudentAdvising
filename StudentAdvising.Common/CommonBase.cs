@@ -9,19 +9,21 @@ namespace StudentAdvising.Common
     [DataContract]
     public class CommonBase
     {
+        private int iD = Int32.MinValue;
+
         [DataMember]
         public virtual int ID
         {
             get
             {
-                throw new ApplicationException("ID has not been implemented");
+                return iD;
             }
-
             set
             {
-                throw new ApplicationException("ID has not been implemented");
+                iD = value;
             }
         }
+
         
         [DataMember]
         public bool IsActiveFL { get; set; }

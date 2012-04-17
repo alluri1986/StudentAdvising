@@ -6,6 +6,7 @@ CREATE PROCEDURE [dbo].[SemesterCoursePrerequisiteSave]
 (
 	@CourseID				int,
 	@PreReqID				int,
+	@SemesterID				int,
 	@IsDependencyFL			bit,
 	@IsActiveFL				bit,
 	@CreationDate			datetime,
@@ -16,7 +17,7 @@ CREATE PROCEDURE [dbo].[SemesterCoursePrerequisiteSave]
 AS
 BEGIN
 
-	IF EXISTS(SELECT * FROM SemesterCoursePrerequisite WHERE CourseID = @CourseID AND PreReqID = @PreReqID)
+	IF EXISTS(SELECT * FROM SemesterCoursePrerequisite WHERE CourseID = @CourseID AND PreReqID = @PreReqID AND SemesterID = @SemesterID)
 	BEGIN
 		
 		UPDATE SemesterCoursePrerequisite
@@ -33,7 +34,8 @@ BEGIN
 		INSERT INTO SemesterCoursePrerequisite
 		(
 			CourseID,		
-			PreReqID,		
+			PreReqID,
+			SemesterID,	
 			IsDependencyFL,	
 			IsActiveFL,	
 			CreationDate,	
@@ -45,6 +47,7 @@ BEGIN
 		(
 			@CourseID,
 			@PreReqID,		
+			@SemesterID,
 			@IsDependencyFL,	
 			@IsActiveFL,		
 			@CreationDate,	

@@ -107,7 +107,7 @@ namespace StudentAdvising.DLL
             try
             {
               //Creating SqlParameter objects to fields in student
-                sb.Append("SELECT p.ID,p.FirstName,p.LastName,p.MiddleName,p.LSUID,p.Email,s.JoiningSemesterID,p.IsActiveFL,IsTransferFL,IsApprovedFL");
+                sb.Append("SELECT p.ID,p.FirstName,p.LastName,p.MiddleName,p.LSUID,p.Email,p.DeptID,s.JoiningSemesterID,p.IsActiveFL,IsTransferFL,IsApprovedFL");
 	            sb.Append("FROM Person p INNER JOIN Student s  ON s.PersonID = p.ID WHERE ID =  " + studentID);
 
                using(SqlDataReader dr = SqlHelper.ExecuteReader(connection,CommandType.Text,sb.ToString()))
@@ -163,11 +163,13 @@ namespace StudentAdvising.DLL
             List<Student> students = new List<Student>();
             try
             {
-                SqlParameter pLastName = new SqlParameter("@LastName",SqlDbType.NVarChar);
-                SqlParameter pEmail = new SqlParameter("@Email",SqlDbType.NVarChar);
-                pLastName.Value = lastName;
-                pEmail.Value = email;
-                string spName = "SearchStudent";
+                SqlParameter pLastName  = new SqlParameter("@LastName",SqlDbType.NVarChar);
+                SqlParameter pEmail     = new SqlParameter("@Email",SqlDbType.NVarChar);
+
+                pLastName.Value         = lastName;
+                pEmail.Value            = email;
+                string spName           = "SearchStudent";
+
                 using(SqlDataReader dr = SqlHelper.ExecuteReader(connection,CommandType.StoredProcedure,spName,pLastName,pEmail))
                 {
 

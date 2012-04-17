@@ -11,7 +11,7 @@ using System.Collections;
 
 namespace StudentAdvising.DLL
 {
-    class DLFaculty
+    public class DLFaculty
     {
         public Faculty SaveFaculty(Faculty faculty)
         {
@@ -86,6 +86,63 @@ namespace StudentAdvising.DLL
 
             return faculty;
 
+        }
+
+
+        public List<Faculty> getFaculty()
+        {
+            SqlConnection connection = SqlHelper.CreateConnection();
+            Faculty faculty = null;
+            List<Faculty> facultyList = new List<Faculty>();
+            StringBuilder sb = new StringBuilder();
+            try
+            {
+                //Creating SqlParameter objects to fields in student
+                sb.Append("SELECT p.ID,p.FirstName,p.LastName,p.MiddleName,p.LSUID,p.Email,p.DeptID,f.IsActiveFL ");
+                sb.Append(" FROM Person p INNER JOIN Faculty f  ON f.PersonID = p.ID ");
+
+                using (SqlDataReader dr = SqlHelper.ExecuteReader(connection, CommandType.Text, sb.ToString()))
+                {
+                     while(dr.Read())
+                    {
+                        faculty = new Faculty();
+
+                        faculty.ID = SqlHelper.ToInt32(dr["ID"]);
+                        faculty.FirstName = SqlHelper.ToString(dr["FirstName"]);
+                        faculty.LastName = SqlHelper.ToString(dr["LastName"]);
+                        faculty.MiddleName = SqlHelper.ToString(dr["MiddleName"]);
+                        faculty.LSUID = SqlHelper.ToString(dr["LSUID"]);
+                        faculty.Email = SqlHelper.ToString(dr["Email"]);
+                        faculty.DeptID = SqlHelper.ToInt32(dr["DeptID"]);
+                        //faculty.IsActiveFL = SqlHelper.ToBool(dr["IsActiveFL"]);
+                        //faculty.Phone = SqlHelper.ToString(dr["Phone"]);
+                        //faculty.UserName = SqlHelper.ToString(dr["UserName"]);
+                        //faculty.Password = SqlHelper.ToString(dr["Password"]);
+                        //faculty.HomeAddress = SqlHelper.ToString(dr["HomeAddress"]);
+                        //faculty.TemporaryAddress = SqlHelper.ToString(dr["TemporaryAddress"]);
+                        //faculty.CreatedBy = SqlHelper.ToInt32(dr["CreatedBy"]);
+                        //faculty.LastUpdatedBy = SqlHelper.ToInt32(dr["LastUpdatedBy"]);
+                        //faculty.CreationDate = SqlHelper.ToDateTime(dr["CreationDate"]);
+                        //faculty.LastUpdatedDate = SqlHelper.ToDateTime(dr["LastUpdatedDate"]);
+                        facultyList.Add(faculty);
+                    }
+                }
+            }
+            catch (SqlException sqlEx)
+            {
+                SqlHelper.CloseConnection(connection);
+                throw new Exception("GetFacultyDetails: " + sqlEx.ToString());
+            }
+            catch (Exception e)
+            {
+                SqlHelper.CloseConnection(connection);
+                throw new Exception("GetFacultyDetails: " + e.ToString());
+            }
+            finally
+            {
+                SqlHelper.CloseConnection(connection);
+            }
+            return facultyList;
         }
 
 
