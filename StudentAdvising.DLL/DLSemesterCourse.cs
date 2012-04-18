@@ -11,7 +11,7 @@ using System.Collections;
 
 namespace StudentAdvising.DLL
 {
-    class DLSemesterCourse
+    public class DLSemesterCourse
     {
         public bool SaveSemesterCourses(List<SemesterCourse> semesterCourses)
         {
@@ -70,6 +70,58 @@ namespace StudentAdvising.DLL
         }
 
 
+        public bool SaveSemesterCourses(int courseID,int fromYear,int toYear, bool Fall,bool Spring ,bool Summer )
+        {
+
+            SqlConnection connection = SqlHelper.CreateConnection();
+            try
+            {
+                string spName = "SemisterCourseSave";
+
+                ArrayList paramList = new ArrayList();
+
+                //Creating SqlParameter objects to fields in faculty
+                SqlParameter pID = new SqlParameter("@ID", SqlDbType.Int);
+                SqlParameter pCourseID = new SqlParameter("@CourseID", SqlDbType.Int);
+                SqlParameter pFromYear     = new SqlParameter("@FromYear",SqlDbType.Int);
+                SqlParameter pToYear     = new SqlParameter("@ToYear",SqlDbType.Int);
+                SqlParameter pFall     = new SqlParameter("@Fall",SqlDbType.Bit);
+                SqlParameter pSpring     = new SqlParameter("@Spring",SqlDbType.Bit);
+                SqlParameter pSummer     = new SqlParameter("@Summer",SqlDbType.Bit);
+
+                pID.Direction = ParameterDirection.InputOutput;
+                
+                pCourseID.Value  = courseID;
+                pFromYear.Value  = fromYear;
+                pToYear.Value    = toYear;
+                pFall.Value      = Fall;
+                pSpring.Value    = Spring;
+                pSummer.Value    = Summer;
+
+                    SqlHelper.ExecuteNonQuery(connection, CommandType.StoredProcedure, spName,pCourseID,pFromYear ,pToYear,pFall,pSpring,pSummer);
+
+                    int i = 0;
+                
+            }
+            catch (SqlException sqlEx)
+            {
+                SqlHelper.CloseConnection(connection);
+                throw new Exception("SemesterCourseSave: " + sqlEx.ToString());
+            }
+            catch (Exception e)
+            {
+                SqlHelper.CloseConnection(connection);
+                throw new Exception("SemesterCourseSave: " + e.ToString());
+            }
+            finally
+            {
+                SqlHelper.CloseConnection(connection);
+            }
+
+            return true;
+
+
+        }
 
     }
 }

@@ -43,6 +43,7 @@
     <Compile Include="BLCourse.cs" />
     <Compile Include="BLCoursePrerequisite.cs" />
     <Compile Include="BLFaculty.cs" />
+    <Compile Include="BLSemesterCourse.cs" />
     <Compile Include="BLStudent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

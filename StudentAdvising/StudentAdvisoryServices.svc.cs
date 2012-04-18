@@ -96,6 +96,13 @@ namespace StudentAdvising
             return true;
         }
 
+        public bool SaveSemesterCourses(int courseID, int fromYear, int toYear, bool Fall, bool Spring, bool Summer)
+        {
+            BLSemesterCourse blSemesterCourse = new BLSemesterCourse();
+            blSemesterCourse.SaveSemesterCourses(courseID, fromYear, toYear, Fall, Spring, Summer);
+            return true;
+        }
+
 
         
     }

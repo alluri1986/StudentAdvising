@@ -46,6 +46,10 @@ namespace StudentAdvising
 
         [OperationContract]
         bool SaveSemesterCourse(List<SemesterCourse> semesterCourses);
+
+        [OperationContract]
+        bool SaveSemesterCourses(int courseID, int fromYear, int toYear, bool Fall, bool Spring, bool Summer);
+
  
     }
 
