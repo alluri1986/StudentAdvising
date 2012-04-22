@@ -1,6 +1,11 @@
 ----------------------------------------------------------------------------------------
---CoursePrerequisiteSave
+--CoursePrerequisiteSave stored procedure
 ----------------------------------------------------------------------------------------
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CoursePrerequisiteSave]') AND type in (N'P', N'PC'))
+DROP PROCEDURE [dbo].[CoursePrerequisiteSave]
+PRINT 'CoursePrerequisiteSave stored procedure dropped';
+GO
+
 
 CREATE PROCEDURE [dbo].[CoursePrerequisiteSave]
 (
@@ -57,3 +62,7 @@ BEGIN
 	END
 
 END
+
+GO
+PRINT 'CoursePrerequisiteSave stored procedure created'
+GO

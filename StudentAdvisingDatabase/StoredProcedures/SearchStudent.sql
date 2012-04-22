@@ -1,4 +1,14 @@
-﻿CREATE PROCEDURE [dbo].[SearchStudent]
+﻿----------------------------------------------------------------------------------------
+--SearchStudent stored procedure
+----------------------------------------------------------------------------------------
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[SearchStudent]') AND type in (N'P', N'PC'))
+DROP PROCEDURE [dbo].[SearchStudent]
+PRINT 'SearchStudent stored procedure dropped';
+GO
+
+
+CREATE PROCEDURE [dbo].[SearchStudent]
 (
 	@LastName nvarchar(100),
 	@Email	  nvarchar(500)
@@ -12,5 +22,8 @@ BEGIN
 	WHERE 
 	p.LastName LIKE '%'+@LastName+'%'
 	
-	
 END
+
+PRINT 'SearchStudent stored procedure updated';
+
+GO

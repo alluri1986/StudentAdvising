@@ -1,6 +1,12 @@
 --------------------------------------------------------------------------------------------
---StudentSave stored procedure
+--FacultySave stored procedure
 --------------------------------------------------------------------------------------------
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[FacultySave]') AND type in (N'P', N'PC'))
+DROP PROCEDURE [dbo].[FacultySave]
+PRINT 'FacultySave stored procedure dropped';
+GO
+
+
 CREATE PROCEDURE [dbo].[FacultySave]
 (
 	@ID					int OUTPUT,
@@ -81,4 +87,7 @@ BEGIN
 	
 	END
 	
+	GO
+	PRINT 'FacultySave stored procedure created';
+	GO
 

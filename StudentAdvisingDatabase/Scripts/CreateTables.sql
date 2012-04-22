@@ -16,12 +16,14 @@ CREATE TABLE LuSemester
 (
 	ID int PRIMARY KEY IDENTITY(1,1),
 	Name nvarchar(500) NOT NULL,
+	[Year] int NOT NULL,
 	[Description] nvarchar(200) NULL,
 	IsActiveFL bit DEFAULT 1 NOT NULL,
 	CreationDate datetime NOT NULL DEFAULT GETUTCDATE(),
 	LastUpdatedDate datetime NOT NULL DEFAULT GETUTCDATE(),
 	CreatedBy int NOT NULL,
 	LastUpdatedBy int NOT NULL
+	
 )
 
 
@@ -73,7 +75,7 @@ CREATE TABLE SemesterCourse
 
 CREATE TABLE SemesterCoursePrerequisite
 (
-	CourseID int  FOREIGN KEY REFERENCES SemesterCourse(ID),
+	SemesterCourseID int  FOREIGN KEY REFERENCES SemesterCourse(ID),
 	PreReqID int FOREIGN KEY REFERENCES Course(ID) NOT NULL,
 	SemesterID int FOREIGN KEY REFERENCES LuSemester(ID) NOT NULL,
 	IsDependencyFL bit DEFAULT 0 NOT NULL,

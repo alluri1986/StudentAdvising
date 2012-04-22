@@ -1,7 +1,11 @@
+----------------------------------------------------------------------------------------
+--CourseSave stored procedure
+----------------------------------------------------------------------------------------
 
-----------------------------------------------------------------------------------------
---CourseSave
-----------------------------------------------------------------------------------------
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CourseSave]') AND type in (N'P', N'PC'))
+DROP PROCEDURE [dbo].[CourseSave]
+PRINT 'CourseSave stored procedure dropped';
+GO
 
 CREATE PROCEDURE [dbo].[CourseSave]
 (
@@ -81,3 +85,7 @@ BEGIN
 	END
 
 END
+
+GO
+PRINT 'CourseSave stored procedure created';
+GO

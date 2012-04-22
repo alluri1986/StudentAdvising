@@ -216,8 +216,80 @@ namespace StudentAdvising.DLL
 
             return students;
         }
-        
 
+
+        public List<SemesterCourse> GetSemesterCourses(int semesterID, List<SemesterCourse> courses)
+        {
+            SqlConnection connection = SqlHelper.CreateConnection();
+            StringBuilder sb = new StringBuilder();
+            List<SemesterCourse> list = new List<SemesterCourse>();
+            try
+            {
+                ///Get all course that do not have prereq
+
+                foreach (SemesterCourse course in courses)
+                {
+                    
+                }
+            }
+            catch(Exception Ex)
+            {
+                SqlHelper.CloseConnection(connection);
+            }
+            finally
+            {
+                SqlHelper.CloseConnection(connection);
+            }
+
+            return list;
+        }
+
+        public List<SemesterCourse> GetIndependentSemesterCourses(int semesterID)
+        {
+            SqlConnection connection = SqlHelper.CreateConnection();
+            StringBuilder sb = new StringBuilder();
+            List<SemesterCourse> courses = new List<SemesterCourse>();
+            try
+            {
+                sb.Append(" SELECT ID, SemesterID, CourseID, IsActiveFL,CreationDate,LastUpdatedDate,CreatedBy,LastUpdatedBy ");
+                sb.Append(" FROM SemesterCourse WHERE ID NOT IN (SELECT DISTINCT SemesterCourseID FROM SemesterCoursePrerequisite) ");
+
+                using (SqlDataReader dr = SqlHelper.ExecuteReader(connection, CommandType.Text, sb.ToString()))
+                {
+                    while (dr.Read())
+                    {
+                        SemesterCourse semesterCourse = new SemesterCourse();
+                        semesterCourse.ID = SqlHelper.ToInt32(dr["ID"]);
+                        semesterCourse.SemesterID = SqlHelper.ToInt32(dr["SemesterID"]);
+                        semesterCourse.CourseID = SqlHelper.ToInt32(dr["CourseID"]);
+                        semesterCourse.IsActiveFL = SqlHelper.ToBool(dr["IsActiveFL"]);
+                        semesterCourse.CreatedBy = SqlHelper.ToInt32(dr["CreatedBy"]);
+                        semesterCourse.LastUpdatedBy = SqlHelper.ToInt32(dr["LastUpdatedBy"]);
+                        semesterCourse.CreationDate = SqlHelper.ToDateTime(dr["CreationDate"]);
+                        semesterCourse.LastUpdatedDate = SqlHelper.ToDateTime(dr["LastUpdatedDate"]);
+                        courses.Add(semesterCourse);
+                    }
+                }
+            }
+            catch(SqlException sqlEx)
+            {
+                SqlHelper.CloseConnection(connection);
+                throw new Exception("GetIndependentSemesterCourses: " + sqlEx.ToString());
+            }
+            catch (Exception e)
+            {
+                SqlHelper.CloseConnection(connection);
+                throw new Exception("GetIndependentSemesterCourses: " + e.ToString());
+
+            }
+            finally
+            {
+                SqlHelper.CloseConnection(connection);
+            }
+            return courses;
+        }
+
+       //public List<SemesterCourse> Get
 
 
     }

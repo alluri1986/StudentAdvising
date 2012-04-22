@@ -76,7 +76,7 @@ namespace StudentAdvising.DLL
             SqlConnection connection = SqlHelper.CreateConnection();
             try
             {
-                string spName = "SemisterCourseSave";
+                string spName = "SemesterCourseSave";
 
                 ArrayList paramList = new ArrayList();
 

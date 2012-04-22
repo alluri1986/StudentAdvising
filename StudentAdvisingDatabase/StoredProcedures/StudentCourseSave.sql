@@ -1,6 +1,11 @@
 ----------------------------------------------------------------------------------------
---StudentCourseSave
+--StudentCourseSave stored procedure
 ----------------------------------------------------------------------------------------
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[StudentCourseSave]') AND type in (N'P', N'PC'))
+DROP PROCEDURE [dbo].[StudentCourseSave]
+PRINT 'StudentCourseSave stored procedure dropped';
+GO
+
 
 CREATE PROCEDURE [dbo].[StudentCourseSave]
 (
@@ -64,3 +69,7 @@ BEGIN
 	END
 
 END
+
+GO
+PRINT 'StudentCourseSave stored procedure updated';
+GO
