@@ -23,7 +23,7 @@ BEGIN
 	p.LastName LIKE '%'+@LastName+'%'
 	
 END
-
+GO
 PRINT 'SearchStudent stored procedure updated';
 
 GO

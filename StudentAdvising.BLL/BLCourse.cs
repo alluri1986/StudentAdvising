@@ -37,6 +37,23 @@ namespace StudentAdvising.BLL
             return course;
         }
 
+        public List<CoursePrerequisite> SaveCoursePrerequisite(List<CoursePrerequisite> coursePrerequisite)
+        {
+            try
+            {
+
+                //coursePrerequisite.CreationDate = DateTime.UtcNow;
+                //coursePrerequisite.LastUpdatedDate = DateTime.UtcNow;
+                GetDLCourse().SaveCoursePrerequisite(coursePrerequisite);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message.ToString());
+            }
+            return coursePrerequisite;
+
+        }
+
        
 
     }

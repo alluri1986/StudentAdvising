@@ -30,7 +30,7 @@ CREATE TABLE LuSemester
 CREATE TABLE Course
 (
 	ID int PRIMARY KEY IDENTITY(1,1),
-	Name nvarchar(500) NOT NULL,
+	Name nvarchar(500) NOT NULL UNIQUE,
 	Abbreviation nvarchar(20) NOT NULL,
 	[Description] nvarchar(200) NULL,
 	Credits int NOT NULL,

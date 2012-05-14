@@ -82,10 +82,10 @@ namespace StudentAdvising
 
         public List<CoursePrerequisite> SaveCoursePrerequisite(List<CoursePrerequisite> coursePrerequisite)
         {
-            BLCoursePrerequisite blCoursePrerequisite = new BLCoursePrerequisite();
+            BLCourse blCourse = new BLCourse();
             //CoursePrerequisite[] array1 ;
 
-            return blCoursePrerequisite.SaveCoursePrerequisite(coursePrerequisite);
+            return blCourse.SaveCoursePrerequisite(coursePrerequisite);
             
         }
 

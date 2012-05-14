@@ -217,20 +217,32 @@ namespace StudentAdvising.DLL
             return students;
         }
 
-
-        public List<SemesterCourse> GetSemesterCourses(int semesterID, List<SemesterCourse> courses)
+       /// <summary>
+       /// This function takes SemesterID and List of registered courses as input and gives list of courses that a student can take in that semester
+       /// </summary>
+       /// <param name="semesterID"></param>
+       /// <param name="courses"></param>
+       /// <returns></returns>
+        public List<SemesterCourse> GetSemesterCourses(int semesterID, List<SemesterCourse> registeredCourses)
         {
             SqlConnection connection = SqlHelper.CreateConnection();
             StringBuilder sb = new StringBuilder();
+            StringBuilder registerCourseIds = new StringBuilder();
+            registerCourseIds.Append(" ");
             List<SemesterCourse> list = new List<SemesterCourse>();
             try
             {
-                ///Get all course that do not have prereq
-
-                foreach (SemesterCourse course in courses)
+                ///We need to combine courses that do not have prereuiste and course whose prerequistes course have already been registered in previous semesters
+                List<SemesterCourse> independentCourses = GetIndependentSemesterCourses(semesterID);
+                
+                foreach (SemesterCourse course in registeredCourses)
                 {
-                    
+                    registerCourseIds.Append(course.ID + ", ");
                 }
+
+
+
+
             }
             catch(Exception Ex)
             {
@@ -244,11 +256,71 @@ namespace StudentAdvising.DLL
             return list;
         }
 
+       /// <summary>
+       /// This function gives list of courses registered by student
+       /// </summary>
+       /// <param name="studentID"></param>
+       /// <returns></returns>
+       public List<StudentCourse> GetStudentRegisteredCourses(int studentID)
+       {
+           StringBuilder sb = new StringBuilder();
+           List<StudentCourse> studentCourses = new List<StudentCourse>();
+           SqlConnection connection = SqlHelper.CreateConnection();
+           
+           try
+           {
+               sb.Append(" SELECT ID,StudentID,CourseID,SemesterID,Status, IsActiveFL, ");
+               sb.Append(" CreationDate,LastUpdatedDate,CreatedBy,LastUpdatedBy ");
+               sb.Append(" WHERE Student ID = " + studentID + "; ");
+               
+               using(SqlDataReader dr = SqlHelper.ExecuteReader(connection,CommandType.Text,sb.ToString()))
+               {
+                   while (dr.Read())
+                   {
+                       StudentCourse sc = new StudentCourse();
+                       sc.ID                = SqlHelper.ToInt32(dr["ID"]);
+                       sc.StudentID         = SqlHelper.ToInt32(dr["StudentID"]);
+                       sc.CourseID          = SqlHelper.ToInt32(dr["CourseID"]);
+                       sc.SemesterID        = SqlHelper.ToInt32(dr["SemesterID"]);
+                       sc.Status            = SqlHelper.ToString(dr["Status"]);
+                       sc.IsActiveFL        = SqlHelper.ToBool(dr["IsActiveFL"]);
+                       sc.CreationDate      = SqlHelper.ToDateTime(dr["CreationDate"]);
+                       sc.LastUpdatedDate   = SqlHelper.ToDateTime(dr["LastUpdatedDate"]);
+                       sc.CreatedBy         = SqlHelper.ToInt32(dr["CreatedBy"]);
+                       sc.LastUpdatedBy     = SqlHelper.ToInt32(dr["LastUpdatedBy"]);
+                       studentCourses.Add(sc);
+                   }
+               }
+           }
+           catch (SqlException sqlEx)
+           {
+               SqlHelper.CloseConnection(connection);
+               throw new Exception("GetStudentSemesterCourses: " + sqlEx.ToString());
+           }
+           catch (Exception ex)
+           {
+               SqlHelper.CloseConnection(connection);
+               throw new Exception("GetStudentSemesterCourses: " + ex.ToString());
+           }
+           finally
+           {
+               SqlHelper.CloseConnection(connection);
+           }
+
+           return studentCourses;
+       }
+
+       /// <summary>
+       /// This function gives courses that have no prerequistes
+       /// </summary>
+       /// <param name="semesterID"></param>
+       /// <returns></returns>
         public List<SemesterCourse> GetIndependentSemesterCourses(int semesterID)
         {
             SqlConnection connection = SqlHelper.CreateConnection();
             StringBuilder sb = new StringBuilder();
             List<SemesterCourse> courses = new List<SemesterCourse>();
+
             try
             {
                 sb.Append(" SELECT ID, SemesterID, CourseID, IsActiveFL,CreationDate,LastUpdatedDate,CreatedBy,LastUpdatedBy ");
@@ -280,7 +352,6 @@ namespace StudentAdvising.DLL
             {
                 SqlHelper.CloseConnection(connection);
                 throw new Exception("GetIndependentSemesterCourses: " + e.ToString());
-
             }
             finally
             {
@@ -289,8 +360,11 @@ namespace StudentAdvising.DLL
             return courses;
         }
 
-       //public List<SemesterCourse> Get
+       
 
 
+      
+
+     
     }
 }
