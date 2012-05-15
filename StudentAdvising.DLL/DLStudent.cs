@@ -244,7 +244,7 @@ namespace StudentAdvising.DLL
 
 
             }
-            catch(Exception Ex)
+            catch(Exception exception)
             {
                 SqlHelper.CloseConnection(connection);
             }

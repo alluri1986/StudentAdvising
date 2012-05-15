@@ -100,7 +100,7 @@ namespace StudentAdvising.DLL
 
                     SqlHelper.ExecuteNonQuery(connection, CommandType.StoredProcedure, spName,pCourseID,pFromYear ,pToYear,pFall,pSpring,pSummer);
 
-                    int i = 0;
+                //    int i = 0;
                 
             }
             catch (SqlException sqlEx)
