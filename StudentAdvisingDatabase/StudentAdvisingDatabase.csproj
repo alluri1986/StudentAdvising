@@ -41,12 +41,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="Functions\ExtractCourseID.sql" />
     <Content Include="Scripts\CreateTables.sql" />
     <Content Include="StoredProcedures\AddSemesterCourse.sql" />
     <Content Include="StoredProcedures\CoursePrerequisiteSave.sql" />
     <Content Include="StoredProcedures\CourseSave.sql" />
     <Content Include="StoredProcedures\EnableConstraints.sql" />
     <Content Include="StoredProcedures\FacultySave.sql" />
+    <Content Include="StoredProcedures\GetAvailableCoursesForStudent.sql" />
     <Content Include="StoredProcedures\PersonSave.sql" />
     <Content Include="StoredProcedures\DisableConstraints.sql" />
     <Content Include="StoredProcedures\SearchStudent.sql" />
@@ -55,9 +57,7 @@
     <Content Include="StoredProcedures\StudentCourseSave.sql" />
     <Content Include="StoredProcedures\StudentSave.sql" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Functions\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

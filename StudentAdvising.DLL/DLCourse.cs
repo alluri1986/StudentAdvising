@@ -33,7 +33,8 @@ namespace StudentAdvising.DLL
                 SqlParameter pDepartmentID = new SqlParameter("@DepartmentID", SqlDbType.Int);
                 SqlParameter pEnglishProficiencyFL = new SqlParameter("@EnglishProficiencyFL", SqlDbType.Bit);
                 SqlParameter pIsMandatoryFL = new SqlParameter("@IsMandatoryFL", SqlDbType.Bit);
-                SqlParameter pIsElectiveFL = new SqlParameter("@IsElectiveFL", SqlDbType.Bit);
+                SqlParameter pIsElectiveAFL = new SqlParameter("@IsElectiveAFL", SqlDbType.Bit);
+                SqlParameter pIsElectiveBFL = new SqlParameter("@IsElectiveBFL", SqlDbType.Bit);
                 SqlParameter pIsActiveFL = new SqlParameter("@IsActiveFL", SqlDbType.Bit);
                 SqlParameter pCreatedBy = new SqlParameter("@CreatedBy", SqlDbType.Int);
                 SqlParameter pLastUpdatedBy = new SqlParameter("@LastUpdatedBy", SqlDbType.Int);
@@ -50,7 +51,8 @@ namespace StudentAdvising.DLL
                 pDepartmentID.Value         =       course.DepartmentID;
                 pEnglishProficiencyFL.Value =       course.EnglishProficiencyFL;
                 pIsMandatoryFL.Value        =       course.IsMandatoryFL;
-                pIsElectiveFL.Value         =       course.IsElectiveFL	;
+                pIsElectiveAFL.Value         =       course.IsElectiveAFL	;
+                pIsElectiveBFL.Value = course.IsElectiveBFL;
                 pIsActiveFL.Value           =       course.IsActiveFL;		
                 pCreationDate.Value         =       course.CreationDate;
                 pLastUpdatedDate.Value      =       course.LastUpdatedDate;
@@ -59,7 +61,7 @@ namespace StudentAdvising.DLL
 
 
                 SqlHelper.ExecuteNonQuery(connection, CommandType.StoredProcedure, spName, pID, pName, pAbbreviation, pDescription, pCredits, pDepartmentID,
-                    pEnglishProficiencyFL, pIsMandatoryFL, pIsElectiveFL, pIsActiveFL, pCreationDate, pLastUpdatedDate, pCreatedBy, pLastUpdatedBy);
+                    pEnglishProficiencyFL, pIsMandatoryFL, pIsElectiveAFL,pIsElectiveBFL ,pIsActiveFL, pCreationDate, pLastUpdatedDate, pCreatedBy, pLastUpdatedBy);
 
                 course.ID = Convert.ToInt32(pID.Value);
 

@@ -56,5 +56,27 @@ namespace StudentAdvising.BLL
 
         }
 
+         public List<StudentCourse> GetStudentRegisteredCourses(int studentID)
+         {
+             dlStudent = GetDLStudent();
+             return dlStudent.GetStudentRegisteredCourses(studentID);
+
+         }
+
+         public List<StudentCourse> GetStudentAvailableCourses(List<StudentCourse> studentRegisteredCourses)
+         {
+             dlStudent = new DLStudent();
+             return dlStudent.GetAvailableCourses(studentRegisteredCourses);
+         }
+
+         public bool SaveStudentRegisteredCourses(List<StudentCourse> studentRegisteredCourses, int StudentID)
+
+         {
+             dlStudent = new DLStudent();
+             return dlStudent.SaveStudentRegisteredCourses(studentRegisteredCourses, StudentID);
+         
+         }
+
+
     }
 }

@@ -18,6 +18,8 @@ CREATE TABLE LuSemester
 	Name nvarchar(500) NOT NULL,
 	[Year] int NOT NULL,
 	[Description] nvarchar(200) NULL,
+	StartDate datetime,
+	EndDate datetime,
 	IsActiveFL bit DEFAULT 1 NOT NULL,
 	CreationDate datetime NOT NULL DEFAULT GETUTCDATE(),
 	LastUpdatedDate datetime NOT NULL DEFAULT GETUTCDATE(),
@@ -25,7 +27,6 @@ CREATE TABLE LuSemester
 	LastUpdatedBy int NOT NULL
 	
 )
-
 
 CREATE TABLE Course
 (
@@ -37,7 +38,8 @@ CREATE TABLE Course
 	DepartmentID int FOREIGN KEY REFERENCES LuDepartment(ID) NOT NULL,
 	EnglishProficiencyFL bit DEFAULT 1 NOT NULL,
 	IsMandatoryFL bit NOT NULL DEFAULT 1,
-	IsElectiveFL bit NOT NULL DEFAULT 1,
+	IsElectiveAFL bit NOT NULL DEFAULT 1,
+	IsElectiveBFL bit NOT NULL DEFAULT 1,
 	IsActiveFL bit DEFAULT 1 NOT NULL,
 	CreationDate datetime NOT NULL DEFAULT GETUTCDATE(),
 	LastUpdatedDate datetime NOT NULL DEFAULT GETUTCDATE(),
@@ -47,7 +49,7 @@ CREATE TABLE Course
 
 CREATE TABLE CoursePrerequisite
 (
-	CourseID int FOREIGN KEY REFERENCES Course(ID) NOT NULL,
+    CourseID int FOREIGN KEY REFERENCES Course(ID) NOT NULL,
 	PreReqID int FOREIGN KEY REFERENCES Course(ID) NOT NULL,
 	IsDependencyFL bit DEFAULT 0 NOT NULL,
 	IsActiveFL bit DEFAULT 1 NOT NULL,
@@ -57,8 +59,6 @@ CREATE TABLE CoursePrerequisite
 	LastUpdatedBy int NOT NULL,
 	CONSTRAINT PK_CoursePrerequisite PRIMARY KEY (CourseID,PreReqID)
 )
-
-
 
 CREATE TABLE SemesterCourse
 (
@@ -72,9 +72,9 @@ CREATE TABLE SemesterCourse
 	LastUpdatedBy int NOT NULL,
 )
 
-
 CREATE TABLE SemesterCoursePrerequisite
 (
+    CourseID int FOREIGN KEY REFERENCES Course(ID) NOT NULL,
 	SemesterCourseID int  FOREIGN KEY REFERENCES SemesterCourse(ID),
 	PreReqID int FOREIGN KEY REFERENCES Course(ID) NOT NULL,
 	SemesterID int FOREIGN KEY REFERENCES LuSemester(ID) NOT NULL,
@@ -86,7 +86,6 @@ CREATE TABLE SemesterCoursePrerequisite
 	LastUpdatedBy int NOT NULL,
 	CONSTRAINT PK_SemesterCoursePrerequiste PRIMARY KEY (CourseID,PreReqID,SemesterID)
 )
-
 
 CREATE TABLE Person
 (
@@ -140,8 +139,11 @@ CREATE TABLE StudentCourse
 (
 	ID int IDENTITY(1,1) PRIMARY KEY,
 	StudentID int FOREIGN KEY REFERENCES Student(PersonID),
-	CourseID int FOREIGN KEY REFERENCES Course(ID),
+	CourseID int FOREIGN KEY REFERENCES SemesterCourse(ID),
+	SemesterCourseID int, 
+	GenEdCourseName nvarchar(10),
 	SemesterID int NOT NULL FOREIGN KEY REFERENCES LuSemester(ID),
+	Credits int NOT NULL,
 	[Status] nvarchar(10) NOT NULL,
 	IsActiveFL bit DEFAULT 1 NOT NULL,
 	CreationDate datetime DEFAULT GETUTCDATE() NOT NULL,

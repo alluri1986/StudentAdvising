@@ -50,7 +50,11 @@ namespace StudentAdvising.Common
         public bool IsMandatoryFL { get; set; }
 
         [DataMember]
-        public bool IsElectiveFL { get; set; }
+        public bool IsElectiveAFL { get; set; }
+
+        [DataMember]
+        public bool IsElectiveBFL { get; set; }
+
 
 
 

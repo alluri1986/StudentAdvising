@@ -28,12 +28,31 @@ namespace StudentAdvising.Common
 
         [DataMember]
         public int CourseID { get; set; }
+
+        [DataMember]
+        public int SemesterCourseID { get; set; }
         
+        [DataMember]
+        public string CourseName { get; set; }
+
+        [DataMember]
+        public string GenEdCourseName { get; set; }
+        
+        [DataMember]
+        public int Credits { get; set; }
+
         [DataMember]
         public int SemesterID { get; set; }
 
         [DataMember]
         public string Status { get; set; }
+
+        [DataMember]
+        public bool IsElectiveAFL { get; set; }
+
+        [DataMember]
+        public bool IsElectiveBFL { get; set; }
+
 
 
     }

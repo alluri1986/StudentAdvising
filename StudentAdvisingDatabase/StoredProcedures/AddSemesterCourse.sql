@@ -18,7 +18,6 @@ CREATE PROCEDURE AddSemesterCourse
 AS
 BEGIN
 
-
 	DECLARE @Semester TABLE(ID int IDENTITY(1,1) ,SemesterID int);
 	
 	DECLARE @currentSemester nvarchar(50);
@@ -52,9 +51,10 @@ BEGIN
 	--SELECT * FROm @Semester;
 	
 	
-	DECLARE @CoursePreRequiste TABLE (ID int IDENTITY(1,1), CourseID int);
+	DECLARE @CoursePreRequiste TABLE (ID int IDENTITY(1,1), CourseID int,IsDependencyFL bit);
 	DECLARE @CoursePreRequisteID int;
 	DECLARE @CurrentSemesterCourseID int;
+	DECLARE @IsDependencyFL bit;
 	
 	WHILE(SELECT TOP 1 ID FROM @Semester) IS NOT NULL
 	BEGIN
@@ -66,15 +66,17 @@ BEGIN
 		SET @CurrentSemesterCourseID = SCOPE_IDENTITY();
 		
 		INSERT INTO @CoursePreRequiste
-		SELECT PreReqID FROM CoursePrerequisite WHERE  CourseID = @CourseID;
+		SELECT PreReqID,IsDependencyFL FROM CoursePrerequisite WHERE  CourseID = @CourseID;
 		
+	
+	
 		WHILE( SELECT  TOP 1 CourseID FROM @CoursePreRequiste) IS NOT NULL
 		BEGIN
 			
-			SELECT TOP 1 @CoursePreRequisteID = CourseID FROM @CoursePreRequiste;
+			SELECT TOP 1 @CoursePreRequisteID = CourseID,@IsDependencyFL = IsDependencyFL FROM @CoursePreRequiste;
 			
-			INSERT INTO SemesterCoursePrerequisite(SemesterID,SemesterCourseID,PreReqID,IsActiveFL,CreationDate,LastUpdatedDate,CreatedBy,LastUpdatedBy)
-			VALUES(@currentSemesterID,@CurrentSemesterCourseID,@CoursePreRequisteID,'true',GETDATE(),GETDATE(),0,0)
+			INSERT INTO SemesterCoursePrerequisite(SemesterID,SemesterCourseID,CourseID,PreReqID,IsActiveFL,IsDependencyFL,CreationDate,LastUpdatedDate,CreatedBy,LastUpdatedBy)
+			VALUES(@currentSemesterID,@CurrentSemesterCourseID,@CourseID,@CoursePreRequisteID,'true',@IsDependencyFL,GETDATE(),GETDATE(),0,0)
 			
 			DELETE FROM @CoursePreRequiste  WHERE CourseID = @CoursePreRequisteID;
 		END

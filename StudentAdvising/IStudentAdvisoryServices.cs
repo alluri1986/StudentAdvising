@@ -24,7 +24,7 @@ namespace StudentAdvising
 
         // TODO: Add your service operations here
         [OperationContract]
-        Hashtable getLuSemester(); 
+        List<Semester> getLuSemester(); 
 
         [OperationContract]
         Student SaveStudentDetails(Student student);
@@ -50,7 +50,17 @@ namespace StudentAdvising
         [OperationContract]
         bool SaveSemesterCourses(int courseID, int fromYear, int toYear, bool Fall, bool Spring, bool Summer);
 
+        [OperationContract]
+        List<StudentCourse> AvailableCourses(List<StudentCourse> registeredCourses);
+
+        [OperationContract]
+        List<StudentCourse> RegisteredCourses(int studentID);
+
+        [OperationContract]
+        bool SaveStudentRegisteredCourses(List<StudentCourse> studentRegisteredCourses, int StudentID);
+
  
+
     }
 
 

@@ -36,7 +36,7 @@ namespace StudentAdvising
 
         //[OperationContract]
 
-        public System.Collections.Hashtable getLuSemester()
+        public List<Semester> getLuSemester()
         {
             DLSemester dlSemester = new DLSemester();
             return dlSemester.getLuSemester();
@@ -105,7 +105,26 @@ namespace StudentAdvising
 
 
 
+        public List<StudentCourse> AvailableCourses(List<StudentCourse> registeredCourses)
+        {
+            BLStudent blStudent = new BLStudent();
+            return blStudent.GetStudentAvailableCourses(registeredCourses);
 
-        
+        }
+
+        public List<StudentCourse> RegisteredCourses(int studentID)
+        {
+            BLStudent blStudent = new BLStudent();
+
+            return blStudent.GetStudentRegisteredCourses(studentID);
+
+        }
+
+
+        public bool SaveStudentRegisteredCourses(List<StudentCourse> studentRegisteredCourses, int StudentID)
+        {
+            BLStudent blStudent = new BLStudent();
+            return blStudent.SaveStudentRegisteredCourses(studentRegisteredCourses, StudentID);
+        }
     }
 }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,13 +7,17 @@ using System.Runtime.Serialization;
 namespace StudentAdvising.Common
 {
     [DataContract]
-    class Semester
+   public  class Semester
     {
         [DataMember]
-        public string ID { get; set; }
+        public int ID { get; set; }
 
         [DataMember]
-        public string Name { get; set; }
+        public string semester { get; set; }
+
+        [DataMember]
+        public int year { get; set; }
+
 
 
     }

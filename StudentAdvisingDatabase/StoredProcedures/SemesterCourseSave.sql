@@ -8,89 +8,76 @@ GO
 
 CREATE PROCEDURE [dbo].[SemesterCourseSave]
 (
-	@ID						int OUTPUT,
-	@SemesterID				int,
-	@CourseID				int,
-	@IsActiveFL				bit,
-	@CreationDate			datetime,
-	@LastUpdatedDate		datetime,
-	@CreatedBy				int,
-	@LastUpdatedBy			int
+	@CourseID nvarchar(500),
+	@FromYear int,
+	@ToYear int,
+	@Fall bit,
+	@Spring bit,
+	@Summer bit
 )
 AS
 BEGIN
 
-	IF EXISTS(SELECT * FROM SemesterCourse WHERE ID = @ID)
+	DECLARE @Semester TABLE(ID int IDENTITY(1,1) ,SemesterID int);
+	
+	DECLARE @currentSemester nvarchar(50);
+	DECLARE @currentSemesterID int;
+	
+	WHILE(@ToYear >=@FromYear)
+	BEGIN
+		IF (@Fall =  1)
+		
+		BEGIN
+			SELECT @currentSemesterID = ID FROM LuSemester WHERE Name = 'Fall - ' + cast(@FromYear as varchar);
+			INSERT INTO @Semester(SemesterID) VALUES(@currentSemesterID) ;
+		END
+		
+		IF (@Spring = 1)
+		BEGIN
+			SELECT @currentSemesterID = ID FROM LuSemester WHERE Name = 'Spring - ' + cast(@FromYear as varchar);
+			INSERT INTO @Semester(SemesterID) VALUES(@currentSemesterID) ;
+		END
+		
+		IF (@Summer = 1 )
+		BEGIN
+			SELECT @currentSemesterID = ID FROM LuSemester WHERE Name = 'Summer - ' + cast(@FromYear as varchar);
+			INSERT INTO @Semester(SemesterID) VALUES(@currentSemesterID) ;
+		END
+		
+		SET @FromYear = @FromYear + 1;
+		
+	END
+	
+	DECLARE @CoursePreRequiste TABLE (ID int IDENTITY(1,1), CourseID int, IsDependencyFL bit);
+	DECLARE @CoursePreRequisteID int;
+	DECLARE @IsDependencyFL bit;
+	
+	WHILE(SELECT TOP 1 ID FROM @Semester) IS NOT NULL
 	BEGIN
 		
-		UPDATE SemesterCourse
-		SET SemesterID					=	@SemesterID,		
-			CourseID					=	@CourseID,		
-			IsActiveFL					=	@IsActiveFL,		
-			LastUpdatedDate				=	@LastUpdatedDate,
-			LastUpdatedBy				=	@LastUpdatedBy	
-		WHERE ID = @ID
+		SELECT TOP 1 @currentSemesterID = SemesterID FROM @Semester
+		INSERT INTO SemesterCourse(SemesterID,CourseID,IsActiveFL,CreationDate,LastUpdatedDate,CreatedBy,LastUpdatedBy)
+		VALUES(@currentSemesterID,@CourseID,'true',GETDATE(),GETDATE(),0,0)
+		
+		INSERT INTO @CoursePreRequiste
+		SELECT PreReqID, IsDependencyFL FROM CoursePrerequisite WHERE  CourseID = @CourseID;
+		
+		WHILE( SELECT  TOP 1 CourseID FROM @CoursePreRequiste) IS NOT NULL
+		BEGIN
 			
-	END
-	ELSE
-	BEGIN
-	
-		INSERT INTO SemesterCourse
-		(
-			SemesterID,		
-			CourseID,		
-			IsActiveFL,		
-			CreationDate,	
-			LastUpdatedDate,
-			CreatedBy,		
-			LastUpdatedBy	
-		)
-		VALUES
-		(
-			@SemesterID,		
-			@CourseID,		
-			@IsActiveFL,		
-			@CreationDate,	
-			@LastUpdatedDate,
-			@CreatedBy,		
-			@LastUpdatedBy	
-		)
-		SET @ID = SCOPE_IDENTITY();	
+			SELECT TOP 1 @CoursePreRequisteID = CourseID , @IsDependencyFL = IsDependencyFL FROM @CoursePreRequiste;
 			
+			INSERT INTO SemesterCoursePrerequisite(SemesterID,CourseID,PreReqID,IsDependencyFL,IsActiveFL,CreationDate,LastUpdatedDate,CreatedBy,LastUpdatedBy)
+			VALUES(@currentSemesterID,@CourseID,@CoursePreRequisteID,@IsDependencyFL,'true',GETDATE(),GETDATE(),0,0)
+			
+			DELETE FROM @CoursePreRequiste  WHERE CourseID = @CoursePreRequisteID;
+		END
+		
+		DELETE FROM @Semester WHERE SemesterID = @currentSemesterID;
+		
 	END
 
 END
-
 GO
 PRINT 'SemesterCourseSave  stored procedure updated';
 GO
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
