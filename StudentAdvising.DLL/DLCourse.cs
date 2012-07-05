@@ -8,7 +8,6 @@ using StudentAdvising.Common;
 using StudentAdvising.Common.Helper;
 using System.Collections;
 
-
 namespace StudentAdvising.DLL
 {
     public class DLCourse
@@ -51,8 +50,8 @@ namespace StudentAdvising.DLL
                 pDepartmentID.Value         =       course.DepartmentID;
                 pEnglishProficiencyFL.Value =       course.EnglishProficiencyFL;
                 pIsMandatoryFL.Value        =       course.IsMandatoryFL;
-                pIsElectiveAFL.Value         =       course.IsElectiveAFL	;
-                pIsElectiveBFL.Value = course.IsElectiveBFL;
+                pIsElectiveAFL.Value        =       course.IsElectiveAFL	;
+                pIsElectiveBFL.Value        =       course.IsElectiveBFL;
                 pIsActiveFL.Value           =       course.IsActiveFL;		
                 pCreationDate.Value         =       course.CreationDate;
                 pLastUpdatedDate.Value      =       course.LastUpdatedDate;
@@ -85,9 +84,69 @@ namespace StudentAdvising.DLL
 
         }
 
-        public void SaveCoursePrerequisite(List<CoursePrerequisite> coursePreReq)
+        public List<Course> GetCourses()
+        {
+
+
+           StringBuilder sb = new StringBuilder();
+           SqlConnection connection = SqlHelper.CreateConnection();
+           List<Course> listOfCourses = new List<Course>();
+           try
+           {
+
+               sb.Append("SELECT ID,Name,Abbreviation,[Description],DepartmentID,Credits,EnglishProficiencyFL,IsMandatoryFL,IsElectiveAFL,");
+               sb.Append("IsElectiveBFL,IsActiveFL FROM Course ORDER BY Name");
+               
+
+               using (SqlDataReader dr = SqlHelper.ExecuteReader(connection, CommandType.Text, sb.ToString()))
+               {
+                   while (dr.Read())
+                   {
+                       Course course = new Course();
+
+                       course.ID                    =   SqlHelper.ToInt32(dr["ID"]);
+                       course.Name                  =   SqlHelper.ToString(dr["Name"]);
+                       course.Abbreviation          =   SqlHelper.ToString(dr["Abbreviation"]);
+                       course.DepartmentID = SqlHelper.ToInt32(dr["DepartmentID"]); 
+                       if (dr["Description"] != null)
+                       {
+                           course.Description       =   SqlHelper.ToString(dr["Description"]);
+                       }
+                       course.Credits               =   SqlHelper.ToInt32(dr["Credits"]);
+                       course.EnglishProficiencyFL  =   SqlHelper.ToBool(dr["EnglishProficiencyFL"]);
+                       course.IsMandatoryFL         =   SqlHelper.ToBool(dr["IsMandatoryFL"]);
+                       course.IsElectiveAFL         =   SqlHelper.ToBool(dr["IsElectiveAFL"]);
+                       course.IsElectiveBFL         =   SqlHelper.ToBool(dr["IsElectiveBFL"]);
+                       course.IsActiveFL            =   SqlHelper.ToBool(dr["IsActiveFL"]);
+                       listOfCourses.Add(course);
+                       
+                   }
+               }
+
+           }
+           catch (SqlException sqlEx)
+           {
+               SqlHelper.CloseConnection(connection);
+               throw new Exception("GetCourses: " + sqlEx.ToString());
+           }
+           catch (Exception ex)
+           {
+               SqlHelper.CloseConnection(connection);
+               throw new Exception("GetCourses: " + ex.ToString());
+           }
+           finally
+           {
+               SqlHelper.CloseConnection(connection);
+           }
+
+           return listOfCourses;
+        }
+
+        public void SaveCoursePrerequisite(int CourseID,List<CoursePrerequisite> coursePreReq)
         {
             SqlConnection connection = SqlHelper.CreateConnection();
+            StringBuilder sb = new StringBuilder();
+
             //CoursePrerequisite coursePrerequisite = new CoursePrerequisite();
             try
             {
@@ -105,7 +164,10 @@ namespace StudentAdvising.DLL
                 SqlParameter pCreationDate = new SqlParameter("@CreationDate", SqlDbType.DateTime);
                 SqlParameter pLastUpdatedDate = new SqlParameter("@LastUpdatedDate", SqlDbType.DateTime);
 
+                //Deleting existing preRequisites
+                sb.Append("DELETE FROM  CoursePrerequisite  WHERE CourseID =" + CourseID);
 
+                SqlHelper.ExecuteNonQuery(connection, CommandType.Text, sb.ToString());
 
                 foreach (CoursePrerequisite coursePrerequisite in coursePreReq)
                 {
@@ -148,6 +210,53 @@ namespace StudentAdvising.DLL
 
         }
 
+        public List<CoursePrerequisite> GetCoursePreRequisites(int CourseID)
+        {
 
+            StringBuilder sb = new StringBuilder();
+            SqlConnection connection = SqlHelper.CreateConnection();
+            List<CoursePrerequisite> listOfPreReqs = new List<CoursePrerequisite>();
+            try
+            {
+
+                sb.Append("SELECT C.ID as CourseID,Name,IsDependencyFL FROM CoursePrerequisite CP INNER JOIN Course C ON C.ID = CP.PreReqID ");
+                sb.Append("WHERE CP.IsActiveFL = 1 AND CP.CourseID = "+CourseID);
+
+
+                using (SqlDataReader dr = SqlHelper.ExecuteReader(connection, CommandType.Text, sb.ToString()))
+                {
+                    while (dr.Read())
+                    {
+                        CoursePrerequisite coursePreRequisite = new CoursePrerequisite();
+                        
+                        coursePreRequisite.ID = SqlHelper.ToInt32(dr["CourseID"]);
+                        coursePreRequisite.PreReqCourseName = SqlHelper.ToString(dr["Name"]);
+                        coursePreRequisite.IsDependencyFL = SqlHelper.ToBool(dr["IsDependencyFL"]);
+                        listOfPreReqs.Add(coursePreRequisite);
+
+                    }
+                }
+
+            }
+            catch (SqlException sqlEx)
+            {
+                SqlHelper.CloseConnection(connection);
+                throw new Exception("GetCourses: " + sqlEx.ToString());
+            }
+            catch (Exception ex)
+            {
+                SqlHelper.CloseConnection(connection);
+                throw new Exception("GetCourses: " + ex.ToString());
+            }
+            finally
+            {
+                SqlHelper.CloseConnection(connection);
+            }
+
+            return listOfPreReqs;
+
+
+
+        }
     }
 }

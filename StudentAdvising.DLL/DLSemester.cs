@@ -22,8 +22,7 @@ namespace StudentAdvising.DLL
 
             try
             {
-
-                sb.Append("SELECT ID,Name,Year,Description FROM LuSemester WHERE IsActiveFL =  1");
+                sb.Append("SELECT ID,Name,Year,Description,StartDate,EndDate FROM LuSemester WHERE IsActiveFL =  1 AND Year!=0");
 
                 using (SqlDataReader dr = SqlHelper.ExecuteReader(connection, CommandType.Text, sb.ToString()))
                 {
@@ -33,6 +32,9 @@ namespace StudentAdvising.DLL
                         semester.ID = SqlHelper.ToInt32(dr["ID"]);
                         semester.semester = SqlHelper.ToString(dr["Name"]);
                         semester.year = SqlHelper.ToInt32(dr["Year"]);
+                        semester.startDate = SqlHelper.ToDateTime(dr["StartDate"]);
+                        semester.endDate = SqlHelper.ToDateTime(dr["EndDate"]);
+                        
                         semesterList.Add(semester);
                     }
                 }

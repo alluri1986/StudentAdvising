@@ -36,9 +36,6 @@ namespace StudentAdvising.Common
         public string CourseName { get; set; }
 
         [DataMember]
-        public string GenEdCourseName { get; set; }
-        
-        [DataMember]
         public int Credits { get; set; }
 
         [DataMember]
@@ -53,7 +50,19 @@ namespace StudentAdvising.Common
         [DataMember]
         public bool IsElectiveBFL { get; set; }
 
+        [DataMember]
+        public int ElectiveID { get; set; }
 
 
-    }
+
+        [DataMember]
+        public bool GenEd { get; set; }
+
+
+        
+
+
+
+
+       }
 }

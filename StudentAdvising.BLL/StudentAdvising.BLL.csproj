@@ -41,9 +41,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BLCourse.cs" />
+    <Compile Include="BLDepartment.cs" />
     <Compile Include="BLFaculty.cs" />
     <Compile Include="BLSemesterCourse.cs" />
     <Compile Include="BLStudent.cs" />
+    <Compile Include="BLUserDetails.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

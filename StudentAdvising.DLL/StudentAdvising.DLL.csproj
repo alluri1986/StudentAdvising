@@ -41,6 +41,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DLAdmin.cs" />
+    <Compile Include="DLDepartment.cs" />
+    <Compile Include="DLUserDetails.cs" />
     <Compile Include="DLCourse.cs" />
     <Compile Include="DLFaculty.cs" />
     <Compile Include="DLSemester.cs" />

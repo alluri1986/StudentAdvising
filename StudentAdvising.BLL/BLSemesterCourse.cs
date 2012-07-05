@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using StudentAdvising.DLL;
+using StudentAdvising.Common;
 
 namespace StudentAdvising.BLL
 {
@@ -19,13 +20,21 @@ namespace StudentAdvising.BLL
             }
             return dlSemesterCourse;
         }
+        public bool SaveSemesterCourses(List<SemesterCourse> semesterCourses)
+        {
 
+            return GetDLSemesterCourse().SaveSemesterCourses(semesterCourses);
+        }
 
         public bool SaveSemesterCourses(int courseID, int fromYear, int toYear, bool Fall, bool Spring, bool Summer)
         {
             GetDLSemesterCourse().SaveSemesterCourses(courseID,  fromYear, toYear,  Fall,  Spring,  Summer);
             return true;
         }
-        
+
+        public List<SemesterCourse> getSemesterCourses(int semesterID)
+        {
+            return GetDLSemesterCourse().getSemesterCourses(semesterID);
+        }
     }
 }

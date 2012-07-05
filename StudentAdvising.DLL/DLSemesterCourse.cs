@@ -40,8 +40,8 @@ namespace StudentAdvising.DLL
                     pIsActiveFL.Value = semesterCourse.IsActiveFL;
                     pCreatedBy.Value = semesterCourse.CreatedBy;
                     pLastUpdatedBy.Value = semesterCourse.LastUpdatedBy;
-                    pCreationDate.Value = semesterCourse.CreationDate;
-                    pLastUpdatedDate.Value = semesterCourse.LastUpdatedDate;
+                    pCreationDate.Value = DateTime.UtcNow;
+                    pLastUpdatedDate.Value = DateTime.UtcNow;
 
                     SqlHelper.ExecuteNonQuery(connection, CommandType.StoredProcedure, spName, pID, pSemesterID,pCourseID, pIsActiveFL, pCreatedBy, pLastUpdatedBy, pCreationDate, pLastUpdatedDate);
 
@@ -68,7 +68,6 @@ namespace StudentAdvising.DLL
             return true;
 
         }
-
 
         public bool SaveSemesterCourses(int courseID,int fromYear,int toYear, bool Fall,bool Spring ,bool Summer )
         {
@@ -121,6 +120,55 @@ namespace StudentAdvising.DLL
             return true;
 
 
+        }
+
+
+        public List<SemesterCourse> getSemesterCourses(int semesterID)
+        {
+
+            StringBuilder sb = new StringBuilder();
+            SqlConnection connection = SqlHelper.CreateConnection();
+            List<SemesterCourse> listOfCourses = new List<SemesterCourse>();
+            try
+            {
+
+                sb.Append("SELECT C.ID AS CourseID,Name,SC.ID AS ID,SemesterID");
+                sb.Append(" FROM SemesterCourse SC INNER JOIN Course C ON ");
+                sb.Append("SC.CourseID = C.ID WHERE SC.SemesterID = "+ semesterID);
+
+               using (SqlDataReader dr = SqlHelper.ExecuteReader(connection, CommandType.Text, sb.ToString()))
+                {
+                    while (dr.Read())
+                    {
+                        SemesterCourse semesterCourse = new SemesterCourse();
+
+                        semesterCourse.ID = SqlHelper.ToInt32(dr["ID"]);
+                        semesterCourse.CourseName = SqlHelper.ToString(dr["Name"]);
+                        semesterCourse.CourseID = SqlHelper.ToInt32(dr["CourseID"]);
+                        semesterCourse.SemesterID = SqlHelper.ToInt32(dr["SemesterID"]);
+
+                        listOfCourses.Add(semesterCourse);
+
+                    }
+                }
+
+            }
+            catch (SqlException sqlEx)
+            {
+                SqlHelper.CloseConnection(connection);
+                throw new Exception("getSemesterCourses: " + sqlEx.ToString());
+            }
+            catch (Exception ex)
+            {
+                SqlHelper.CloseConnection(connection);
+                throw new Exception("getSemesterCourses: " + ex.ToString());
+            }
+            finally
+            {
+                SqlHelper.CloseConnection(connection);
+            }
+
+            return listOfCourses;
         }
 
     }

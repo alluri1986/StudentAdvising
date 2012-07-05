@@ -15,7 +15,8 @@ namespace StudentAdvising.Common
         [DataMember]
         public int CourseID { get; set; }
 
-
+        [DataMember]
+        public string CourseName { get; set; }
 
     }
 }

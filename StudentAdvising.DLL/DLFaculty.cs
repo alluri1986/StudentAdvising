@@ -72,7 +72,8 @@ namespace StudentAdvising.DLL
             catch (SqlException sqlEx)
             {
                 SqlHelper.CloseConnection(connection);
-                throw new Exception("FacultySave: " + sqlEx.ToString());
+                ErrorLog.ErrorRoutine(false, sqlEx);
+                //throw new StudentAdvising.Common.ApplicationException(sqlEx.ErrorCode,sqlEx.Message);
             }
             catch (Exception e)
             {

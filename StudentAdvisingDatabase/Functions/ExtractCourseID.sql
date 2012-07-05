@@ -1,9 +1,10 @@
-USE [StudentAdvising_May]
-GO
-/****** Object:  UserDefinedFunction [dbo].[ExtractCourseID]    Script Date: 05/21/2012 15:16:46 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
+----------------------------------------------------------------------------------------
+--ExtractCourseID Function
+----------------------------------------------------------------------------------------
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ExtractCourseID]') AND type in (N'P', N'PC'))
+DROP FUNCTION [dbo].[ExtractCourseID];
+PRINT 'ExtractCourseID Function dropped';
 GO
 CREATE FUNCTION [dbo].[ExtractCourseID]
 (
@@ -51,3 +52,7 @@ BEGIN
 
 RETURN;
 END
+
+GO
+PRINT 'ExtractCourseID Function created';
+GO

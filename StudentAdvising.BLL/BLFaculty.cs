@@ -20,7 +20,7 @@ namespace StudentAdvising.BLL
             return dlFaculty;
         }
 
-        public Faculty SaveFaculty(Faculty faculty)
+        public Faculty SaveFaculty(Faculty faculty) 
         {
             try
             {
@@ -28,8 +28,13 @@ namespace StudentAdvising.BLL
                 faculty.LastUpdatedDate = DateTime.UtcNow;
                 GetDLFaculty().SaveFaculty(faculty);
             }
+                catch(StudentAdvising.Common.ApplicationException appException){
+
+                    throw appException;
+                }
             catch (Exception ex)
             {
+               
                 throw new Exception(ex.Message.ToString());
             }
             return faculty;

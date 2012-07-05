@@ -1,0 +1,126 @@
+Source		: .Net SqlClient Data Provider
+Method		: OnError
+Date		: 2:40:03 PM
+Time		: 6/28/2012
+Computer	: APPU-PC
+Error		: Violation of UNIQUE KEY constraint 'UQ__Person__15362EA146E78A0C'. Cannot insert duplicate key in object 'dbo.Person'. The duplicate key value is ().
+Cannot insert the value NULL into column 'PersonID', table 'StudentAdvising_May.dbo.Faculty'; column does not allow nulls. INSERT fails.
+The statement has been terminated.
+The statement has been terminated.
+Stack Trace	: at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection)
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning()
+   at System.Data.SqlClient.TdsParser.Run(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj)
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, DbAsyncResult result)
+   at System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(DbAsyncResult result, String methodName, Boolean sendToPipe)
+   at System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   at StudentAdvising.Common.Helper.SqlHelper.ExecuteNonQuery(SqlConnection connection, CommandType commandType, String commandText, SqlParameter[] commandParameters) in C:\Projects\StudentAdvising\StudentAdvisingWebservice\StudentAdvising\StudentAdvising.DLL\SQLHelper.cs:line 383
+   at StudentAdvising.DLL.DLFaculty.SaveFaculty(Faculty faculty) in C:\Projects\StudentAdvising\StudentAdvisingWebservice\StudentAdvising\StudentAdvising.DLL\DLFaculty.cs:line 65
+^^-------------------------------------------------------------------^^
+Source		: .Net SqlClient Data Provider
+Method		: OnError
+Date		: 2:51:16 PM
+Time		: 6/28/2012
+Computer	: APPU-PC
+Error		: Violation of UNIQUE KEY constraint 'UQ__Person__15362EA146E78A0C'. Cannot insert duplicate key in object 'dbo.Person'. The duplicate key value is ().
+Cannot insert the value NULL into column 'PersonID', table 'StudentAdvising_May.dbo.Faculty'; column does not allow nulls. INSERT fails.
+The statement has been terminated.
+The statement has been terminated.
+Stack Trace	: at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection)
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning()
+   at System.Data.SqlClient.TdsParser.Run(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj)
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, DbAsyncResult result)
+   at System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(DbAsyncResult result, String methodName, Boolean sendToPipe)
+   at System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   at StudentAdvising.Common.Helper.SqlHelper.ExecuteNonQuery(SqlConnection connection, CommandType commandType, String commandText, SqlParameter[] commandParameters) in C:\Projects\StudentAdvising\StudentAdvisingWebservice\StudentAdvising\StudentAdvising.DLL\SQLHelper.cs:line 383
+   at StudentAdvising.DLL.DLFaculty.SaveFaculty(Faculty faculty) in C:\Projects\StudentAdvising\StudentAdvisingWebservice\StudentAdvising\StudentAdvising.DLL\DLFaculty.cs:line 65
+^^-------------------------------------------------------------------^^
+Source		: .Net SqlClient Data Provider
+Method		: OnError
+Date		: 2:51:19 PM
+Time		: 6/28/2012
+Computer	: APPU-PC
+Error		: Violation of UNIQUE KEY constraint 'UQ__Person__15362EA146E78A0C'. Cannot insert duplicate key in object 'dbo.Person'. The duplicate key value is ().
+Cannot insert the value NULL into column 'PersonID', table 'StudentAdvising_May.dbo.Faculty'; column does not allow nulls. INSERT fails.
+The statement has been terminated.
+The statement has been terminated.
+Stack Trace	: at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection)
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning()
+   at System.Data.SqlClient.TdsParser.Run(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj)
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, DbAsyncResult result)
+   at System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(DbAsyncResult result, String methodName, Boolean sendToPipe)
+   at System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   at StudentAdvising.Common.Helper.SqlHelper.ExecuteNonQuery(SqlConnection connection, CommandType commandType, String commandText, SqlParameter[] commandParameters) in C:\Projects\StudentAdvising\StudentAdvisingWebservice\StudentAdvising\StudentAdvising.DLL\SQLHelper.cs:line 383
+   at StudentAdvising.DLL.DLFaculty.SaveFaculty(Faculty faculty) in C:\Projects\StudentAdvising\StudentAdvisingWebservice\StudentAdvising\StudentAdvising.DLL\DLFaculty.cs:line 65
+^^-------------------------------------------------------------------^^
+Source		: .Net SqlClient Data Provider
+Method		: OnError
+Date		: 3:01:48 PM
+Time		: 6/28/2012
+Computer	: APPU-PC
+Error		: Violation of UNIQUE KEY constraint 'UQ__Person__15362EA146E78A0C'. Cannot insert duplicate key in object 'dbo.Person'. The duplicate key value is ().
+Cannot insert the value NULL into column 'PersonID', table 'StudentAdvising_May.dbo.Faculty'; column does not allow nulls. INSERT fails.
+The statement has been terminated.
+The statement has been terminated.
+Stack Trace	: at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection)
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning()
+   at System.Data.SqlClient.TdsParser.Run(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj)
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, DbAsyncResult result)
+   at System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(DbAsyncResult result, String methodName, Boolean sendToPipe)
+   at System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   at StudentAdvising.Common.Helper.SqlHelper.ExecuteNonQuery(SqlConnection connection, CommandType commandType, String commandText, SqlParameter[] commandParameters) in C:\Projects\StudentAdvising\StudentAdvisingWebservice\StudentAdvising\StudentAdvising.DLL\SQLHelper.cs:line 383
+   at StudentAdvising.DLL.DLFaculty.SaveFaculty(Faculty faculty) in C:\Projects\StudentAdvising\StudentAdvisingWebservice\StudentAdvising\StudentAdvising.DLL\DLFaculty.cs:line 65
+^^-------------------------------------------------------------------^^
+Source		: .Net SqlClient Data Provider
+Method		: OnError
+Date		: 3:04:57 PM
+Time		: 6/28/2012
+Computer	: APPU-PC
+Error		: Violation of UNIQUE KEY constraint 'UQ__Person__15362EA146E78A0C'. Cannot insert duplicate key in object 'dbo.Person'. The duplicate key value is ().
+Cannot insert the value NULL into column 'PersonID', table 'StudentAdvising_May.dbo.Faculty'; column does not allow nulls. INSERT fails.
+The statement has been terminated.
+The statement has been terminated.
+Stack Trace	: at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection)
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning()
+   at System.Data.SqlClient.TdsParser.Run(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj)
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, DbAsyncResult result)
+   at System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(DbAsyncResult result, String methodName, Boolean sendToPipe)
+   at System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   at StudentAdvising.Common.Helper.SqlHelper.ExecuteNonQuery(SqlConnection connection, CommandType commandType, String commandText, SqlParameter[] commandParameters) in C:\Projects\StudentAdvising\StudentAdvisingWebservice\StudentAdvising\StudentAdvising.DLL\SQLHelper.cs:line 383
+   at StudentAdvising.DLL.DLFaculty.SaveFaculty(Faculty faculty) in C:\Projects\StudentAdvising\StudentAdvisingWebservice\StudentAdvising\StudentAdvising.DLL\DLFaculty.cs:line 65
+^^-------------------------------------------------------------------^^
+Source		: .Net SqlClient Data Provider
+Method		: OnError
+Date		: 3:07:20 PM
+Time		: 6/28/2012
+Computer	: APPU-PC
+Error		: Violation of UNIQUE KEY constraint 'UQ__Person__15362EA146E78A0C'. Cannot insert duplicate key in object 'dbo.Person'. The duplicate key value is ().
+Cannot insert the value NULL into column 'PersonID', table 'StudentAdvising_May.dbo.Faculty'; column does not allow nulls. INSERT fails.
+The statement has been terminated.
+The statement has been terminated.
+Stack Trace	: at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection)
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning()
+   at System.Data.SqlClient.TdsParser.Run(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj)
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, DbAsyncResult result)
+   at System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(DbAsyncResult result, String methodName, Boolean sendToPipe)
+   at System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   at StudentAdvising.Common.Helper.SqlHelper.ExecuteNonQuery(SqlConnection connection, CommandType commandType, String commandText, SqlParameter[] commandParameters) in C:\Projects\StudentAdvising\StudentAdvisingWebservice\StudentAdvising\StudentAdvising.DLL\SQLHelper.cs:line 383
+   at StudentAdvising.DLL.DLFaculty.SaveFaculty(Faculty faculty) in C:\Projects\StudentAdvising\StudentAdvisingWebservice\StudentAdvising\StudentAdvising.DLL\DLFaculty.cs:line 65
+^^-------------------------------------------------------------------^^

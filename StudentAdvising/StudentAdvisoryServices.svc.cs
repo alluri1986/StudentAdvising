@@ -36,6 +36,13 @@ namespace StudentAdvising
 
         //[OperationContract]
 
+        public UserDetails GetUserDetails(string email)
+        {
+            BLUserDetails blUserDetails = new BLUserDetails();
+            return blUserDetails.GetUserDetails(email);
+
+        }
+
         public List<Semester> getLuSemester()
         {
             DLSemester dlSemester = new DLSemester();
@@ -50,6 +57,13 @@ namespace StudentAdvising
             return student;
         }
 
+        public Student GetStudent(int studentID)
+        {
+            BLStudent blStudent = new BLStudent();
+            return blStudent.GetStudent(studentID);
+            
+        }
+        
         public List<Student> SearchStudent(string lastName, string email)
         {
              BLStudent blStudent = new BLStudent();
@@ -57,10 +71,18 @@ namespace StudentAdvising
            
         }
 
-        public Faculty SaveFacultyDetails(Faculty faculty)
+        public Faculty SaveFacultyDetails(Faculty faculty) 
         {
-            BLFaculty blFaculty = new BLFaculty();
-            blFaculty.SaveFaculty(faculty);
+            try
+            {
+                BLFaculty blFaculty = new BLFaculty();
+                blFaculty.SaveFaculty(faculty);
+                
+            }
+            catch (StudentAdvising.Common.ApplicationException appException)
+            {
+                throw appException;
+            }
             return faculty;
         }
 
@@ -80,22 +102,17 @@ namespace StudentAdvising
         }
 
 
-        public List<CoursePrerequisite> SaveCoursePrerequisite(List<CoursePrerequisite> coursePrerequisite)
+        public List<CoursePrerequisite> SaveCoursePrerequisite(int CourseID,List<CoursePrerequisite> coursePrerequisite)
         {
             BLCourse blCourse = new BLCourse();
             //CoursePrerequisite[] array1 ;
 
-            return blCourse.SaveCoursePrerequisite(coursePrerequisite);
+            return blCourse.SaveCoursePrerequisite(CourseID,coursePrerequisite);
             
         }
 
 
-        public bool SaveSemesterCourse(List<SemesterCourse> semesterCourses)
-        {
-
-            return true;
-        }
-
+        
         public bool SaveSemesterCourses(int courseID, int fromYear, int toYear, bool Fall, bool Spring, bool Summer)
         {
             BLSemesterCourse blSemesterCourse = new BLSemesterCourse();
@@ -104,6 +121,19 @@ namespace StudentAdvising
         }
 
 
+        public bool AddTransferedCourse(int StudentID, Course course)
+        {
+            BLStudent blStudent = new BLStudent();
+            return blStudent.AddTransferedCourse(StudentID, course);
+
+        }
+
+        public List<StudentCourse> GetTransferedCourses(int StudentID)
+        {
+            BLStudent blStudent = new BLStudent();
+            return blStudent.GetTransferedCourses(StudentID);
+
+        }
 
         public List<StudentCourse> AvailableCourses(List<StudentCourse> registeredCourses)
         {
@@ -120,11 +150,79 @@ namespace StudentAdvising
 
         }
 
+        public RegisteredAvailableCourseList GetStudentRegisteredAndAvailableCourses(int studentID, RegisteredAvailableCourseList RnAList)
+        {
+
+            BLStudent blStudent = new BLStudent();
+            return blStudent.GetStudentRegisteredAndAvailableCourses(studentID, RnAList);
+        }
 
         public bool SaveStudentRegisteredCourses(List<StudentCourse> studentRegisteredCourses, int StudentID)
         {
             BLStudent blStudent = new BLStudent();
             return blStudent.SaveStudentRegisteredCourses(studentRegisteredCourses, StudentID);
+        }
+
+
+        public List<StudentCourse> OverRideCourses(int studentID, int SemesterID)
+        {
+            BLStudent blStudent = new BLStudent();
+            return blStudent.OverRideCourses(studentID, SemesterID);
+
+        }
+
+        public bool OverRideCourse(int advisorID, StudentCourse sc)
+        {
+            BLStudent blStudent = new BLStudent();
+            return blStudent.OverRideCourse(advisorID, sc);
+
+        }
+
+
+        public List<Course> GetCourses()
+        {
+            BLCourse blCourse = new BLCourse();
+            return blCourse.GetCourseList();
+
+        }
+
+        public List<CoursePrerequisite> GetCoursePrerequisites(int  courseID)
+        {
+            BLCourse blCourse = new BLCourse();
+            return blCourse.GetCoursePreRequisites(courseID);
+        }
+
+
+        public bool SaveDepartment(Department department)
+        {
+            BLDepartment blDept = new BLDepartment();
+            return blDept.SaveDepartment(department);
+
+        }
+
+        public List<Department> getLuDepartment()
+        {
+            BLDepartment blDept = new BLDepartment();
+            return blDept.getLuDepartment();
+        }
+
+
+        public bool SaveSemesterCourse(List<SemesterCourse> semesterCourses)
+        {
+            BLSemesterCourse blsemsester = new BLSemesterCourse();
+            return blsemsester.SaveSemesterCourses(semesterCourses);
+        }
+
+
+        public List<SemesterCourse> getSemesterCourses(int semesterID)
+        {
+            BLSemesterCourse blsemsester = new BLSemesterCourse();
+            return blsemsester.getSemesterCourses(semesterID);
+        }
+
+        public List<Semester> GetCourseAvailability(int CourseID)
+        {
+            throw new NotImplementedException();
         }
     }
 }

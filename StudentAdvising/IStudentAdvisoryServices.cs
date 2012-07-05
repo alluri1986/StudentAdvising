@@ -24,13 +24,22 @@ namespace StudentAdvising
 
         // TODO: Add your service operations here
         [OperationContract]
-        List<Semester> getLuSemester(); 
+        List<Semester> getLuSemester();
 
+        [OperationContract]
+        bool SaveDepartment(Department department);
+
+        [OperationContract]
+        List<Department> getLuDepartment(); 
+        
         [OperationContract]
         Student SaveStudentDetails(Student student);
 
         [OperationContract]
-        Faculty SaveFacultyDetails(Faculty faculty);
+        Student GetStudent(int studentID);
+        
+        [OperationContract]
+        Faculty SaveFacultyDetails(Faculty faculty) ;
 
         [OperationContract]
         List<Faculty> GetFaculty();
@@ -42,13 +51,28 @@ namespace StudentAdvising
         Course SaveCourseDetails(Course course);
 
         [OperationContract]
-        List<CoursePrerequisite> SaveCoursePrerequisite(List<CoursePrerequisite> coursePrerequisite);
+        List<CoursePrerequisite> SaveCoursePrerequisite(int CourseID,List<CoursePrerequisite> coursePrerequisite);
+
+        [OperationContract]
+        List<Course> GetCourses();
+
+        [OperationContract]
+        List<CoursePrerequisite> GetCoursePrerequisites(int courseID);
+
 
         [OperationContract]
         bool SaveSemesterCourse(List<SemesterCourse> semesterCourses);
 
         [OperationContract]
+        List<SemesterCourse> getSemesterCourses(int semesterID);
+
+
+        [OperationContract]
         bool SaveSemesterCourses(int courseID, int fromYear, int toYear, bool Fall, bool Spring, bool Summer);
+
+        [OperationContract]
+        List<Semester> GetCourseAvailability(int CourseID);
+
 
         [OperationContract]
         List<StudentCourse> AvailableCourses(List<StudentCourse> registeredCourses);
@@ -57,8 +81,25 @@ namespace StudentAdvising
         List<StudentCourse> RegisteredCourses(int studentID);
 
         [OperationContract]
+        RegisteredAvailableCourseList GetStudentRegisteredAndAvailableCourses(int studentID, RegisteredAvailableCourseList RnAList);
+       
+        [OperationContract]
         bool SaveStudentRegisteredCourses(List<StudentCourse> studentRegisteredCourses, int StudentID);
 
+        [OperationContract]
+        bool AddTransferedCourse(int StudentID,Course course);
+
+        [OperationContract]
+        List<StudentCourse> GetTransferedCourses(int StudentID);
+
+        [OperationContract]
+        List<StudentCourse> OverRideCourses(int studentID, int SemesterID);
+
+        [OperationContract]
+        bool OverRideCourse(int advisorID, StudentCourse sc);
+
+        [OperationContract]
+        UserDetails GetUserDetails(string email);
  
 
     }

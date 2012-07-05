@@ -12,10 +12,9 @@ namespace StudentAdvising.DLL
 {
    public class DLStudent
     {
-
-       List<StudentCourse> studentCourses = new List<StudentCourse>();
-                                        
-        public Student SaveStudent(Student student)
+      List<StudentCourse> studentCourses = new List<StudentCourse>();
+                     
+      public Student SaveStudent(Student student)
         {
             SqlConnection connection = SqlHelper.CreateConnection();
             try
@@ -100,8 +99,7 @@ namespace StudentAdvising.DLL
             return student;
 
         }
-
-        public Student GetStudent(int studentID)
+      public Student GetStudent(int studentID)
         {
             SqlConnection connection = SqlHelper.CreateConnection();
             StringBuilder sb = new StringBuilder();
@@ -109,8 +107,9 @@ namespace StudentAdvising.DLL
             try
             {
               //Creating SqlParameter objects to fields in student
-                sb.Append("SELECT p.ID,p.FirstName,p.LastName,p.MiddleName,p.LSUID,p.Email,p.DeptID,s.JoiningSemesterID,p.IsActiveFL,IsTransferFL,IsApprovedFL");
-	            sb.Append("FROM Person p INNER JOIN Student s  ON s.PersonID = p.ID WHERE ID =  " + studentID);
+                sb.Append("SELECT p.ID,p.FirstName,p.LastName,p.MiddleName,p.LSUID,p.Email,p.DeptID,s.JoiningSemesterID,s.AdvisorID");
+                sb.Append(",p.IsActiveFL,IsTransferFL,IsApprovedFL,ApprovalDate,p.CreatedBy,p.CreationDate,p.LastUpdatedBy,p.LastUpdatedDate");
+	            sb.Append(" FROM Person p INNER JOIN Student s  ON s.PersonID = p.ID WHERE ID =  " + studentID);
 
                using(SqlDataReader dr = SqlHelper.ExecuteReader(connection,CommandType.Text,sb.ToString()))
                 {
@@ -129,11 +128,11 @@ namespace StudentAdvising.DLL
                         st.IsApprovedFL = SqlHelper.ToBool(dr["IsApprovedFL"]);
                         st.ApprovalDate = SqlHelper.ToDateTime(dr["ApprovalDate"]);
                         st.AdvisorID = SqlHelper.ToInt32(dr["AdvisorID"]);
-                        st.Phone = SqlHelper.ToString(dr["Phone"]);
-                        st.UserName = SqlHelper.ToString(dr["UserName"]);
-                        st.Password = SqlHelper.ToString(dr["Password"]);
-                        st.HomeAddress = SqlHelper.ToString(dr["HomeAddress"]);
-                        st.TemporaryAddress = SqlHelper.ToString(dr["TemporaryAddress"]);
+                        //st.Phone = SqlHelper.ToString(dr["Phone"]);
+                        //st.UserName = SqlHelper.ToString(dr["UserName"]);
+                        //st.Password = SqlHelper.ToString(dr["Password"]);
+                        //st.HomeAddress = SqlHelper.ToString(dr["HomeAddress"]);
+                        //st.TemporaryAddress = SqlHelper.ToString(dr["TemporaryAddress"]);
                         st.CreatedBy = SqlHelper.ToInt32(dr["CreatedBy"]);
                         st.LastUpdatedBy = SqlHelper.ToInt32(dr["LastUpdatedBy"]);
                         st.CreationDate = SqlHelper.ToDateTime(dr["CreationDate"]);
@@ -158,8 +157,7 @@ namespace StudentAdvising.DLL
             }
             return st;
         }
-
-        public List<Student> SearchStudent(string lastName,string email)
+      public List<Student> SearchStudent(string lastName,string email)
         {
             SqlConnection connection = SqlHelper.CreateConnection();
             List<Student> students = new List<Student>();
@@ -218,71 +216,119 @@ namespace StudentAdvising.DLL
 
             return students;
         }
-
-       /// <summary>
-       /// This function takes SemesterID and List of registered courses as input and gives list of courses that a student can take in that semester
-       /// </summary>
-       /// <param name="semesterID"></param>
-       /// <param name="courses"></param>
-       /// <returns></returns>
-        public List<SemesterCourse> GetSemesterCourses(int semesterID, List<SemesterCourse> registeredCourses)
+      public bool AddTransferedCourse(int StudentID, Course course)
         {
+
             SqlConnection connection = SqlHelper.CreateConnection();
             StringBuilder sb = new StringBuilder();
-            StringBuilder registerCourseIds = new StringBuilder();
-            registerCourseIds.Append(" ");
-            List<SemesterCourse> list = new List<SemesterCourse>();
+
             try
             {
-                ///We need to combine courses that do not have prereuiste and course whose prerequistes course have already been registered in previous semesters
-                List<SemesterCourse> independentCourses = GetIndependentSemesterCourses(semesterID);
-                
-                foreach (SemesterCourse course in registeredCourses)
-                {
-                    registerCourseIds.Append(course.ID + ", ");
-                }
+                //Creating SqlParameter objects to fields in student
+                sb.Append("INSERT INTO StudentCourse(StudentID,CourseID,SemesterCourseID,CourseName,ElectiveID,SemesterID,");
+                sb.Append("Credits,[Status],IsActiveFL,CreationDate,LastUpdatedDate,CreatedBy,LastUpdatedBy) VALUES");
+                sb.Append("(" + StudentID + "," + course.ID + ",0,'" + course.Name + "'");
+                sb.Append(",0," + 0 + "," + course.Credits + ",'Pass','" + course.IsActiveFL);
+                sb.Append("','" + DateTime.UtcNow + "','" + DateTime.UtcNow + "'," + StudentID + "," + StudentID);
+                sb.Append(")");
 
 
-
-
-            }
-            catch(Exception exception)
+                SqlHelper.ExecuteNonQuery(connection, CommandType.Text, sb.ToString());
+              }
+            catch (SqlException sqlEx)
             {
                 SqlHelper.CloseConnection(connection);
+                throw new Exception("GetStudentDetails: " + sqlEx.ToString());
+            }
+            catch (Exception e)
+            {
+                SqlHelper.CloseConnection(connection);
+                throw new Exception("GetStudentDetails: " + e.ToString());
             }
             finally
             {
                 SqlHelper.CloseConnection(connection);
             }
 
-            return list;
+            return true;
         }
+      public List<StudentCourse> GetTransferedCourses(int StudentID)
+        {
+            SqlConnection connection = SqlHelper.CreateConnection();
+            StringBuilder sb = new StringBuilder();
+            List<StudentCourse> studentCourses = new List<StudentCourse>();
+            try
+            {
+                //Creating SqlParameter objects to fields in student
+                
 
-       /// <summary>
-       /// This function gives list of courses registered by student
-       /// </summary>
-       /// <param name="studentID"></param>
-       /// <returns></returns>
-       public List<StudentCourse> GetStudentRegisteredCourses(int studentID)
+                sb.Append("SELECT cour.ID as ID,sc.StudentID as StudentID,sc.SemesterCourseID as SemesterCourseID,cour.Name as CourseName,");
+                sb.Append("cour.ID as CourseID,cour.Credits as Credits,cour.IsElectiveAFL as IsElectiveAFL ,cour.IsElectiveBFL as IsElectiveBFL ,");
+                sb.Append("sc.SemesterID as SemesterID,sc.[Status] as Status,sc.IsActiveFL as IsActiveFL,sc.CreationDate as CreationDate,");
+                sb.Append("sc.LastUpdatedDate as LastUpdatedDate,sc.CreatedBy as CreatedBy,sc.LastUpdatedBy as LastUpdatedBy FROM StudentCourse sc ");
+                sb.Append(" JOIN Course cour ON cour.Name = sc.CourseName WHERE StudentID =  " + StudentID + " AND SemesterID =0 ;");
+                using (SqlDataReader dr = SqlHelper.ExecuteReader(connection, CommandType.Text, sb.ToString()))
+                {
+                    while (dr.Read())
+                    {
+                        StudentCourse sc = new StudentCourse();
+                        sc.ID = SqlHelper.ToInt32(dr["ID"]);
+                        sc.StudentID = SqlHelper.ToInt32(dr["StudentID"]);
+                        sc.SemesterCourseID = SqlHelper.ToInt32(dr["SemesterCourseID"]);
+                        sc.CourseID = SqlHelper.ToInt32(dr["CourseID"]);
+                        sc.CourseName = SqlHelper.ToString(dr["CourseName"]);
+                        sc.Credits = SqlHelper.ToInt32(dr["Credits"]);
+                        sc.SemesterID = SqlHelper.ToInt32(dr["SemesterID"]);
+                        sc.Status = SqlHelper.ToString(dr["Status"]);
+                        sc.IsElectiveAFL = SqlHelper.ToBool(dr["IsElectiveAFL"]);
+                        sc.IsElectiveBFL = SqlHelper.ToBool(dr["IsElectiveBFL"]);
+                        sc.IsActiveFL = SqlHelper.ToBool(dr["IsActiveFL"]);
+                        sc.CreationDate = SqlHelper.ToDateTime(dr["CreationDate"]);
+                        sc.LastUpdatedDate = SqlHelper.ToDateTime(dr["LastUpdatedDate"]);
+                        sc.CreatedBy = SqlHelper.ToInt32(dr["CreatedBy"]);
+                        sc.LastUpdatedBy = SqlHelper.ToInt32(dr["LastUpdatedBy"]);
+                        studentCourses.Add(sc);
+                    }
+                }
+            }
+            catch (SqlException sqlEx)
+            {
+                SqlHelper.CloseConnection(connection);
+                throw new Exception("GetStudentDetails: " + sqlEx.ToString());
+            }
+            catch (Exception e)
+            {
+                SqlHelper.CloseConnection(connection);
+                throw new Exception("GetStudentDetails: " + e.ToString());
+            }
+            finally
+            {
+                SqlHelper.CloseConnection(connection);
+            }
+            return studentCourses;
+
+        }
+      public List<StudentCourse> GetStudentRegisteredCourses(int studentID)
        {
            StringBuilder sb = new StringBuilder();
+           StringBuilder sb1 = new StringBuilder();
            SqlConnection connection = SqlHelper.CreateConnection();
            
            try
            {
-               //sb.Append("SELECT sc.ID as ID,sc.StudentID as StudentID,sc.CourseID as CourseID,cour.Name as CourseName,cour.Credits as Credits,");
-               //sb.Append("cour.IsElectiveFL as IsElectiveFL ,sc.SemesterID as SemesterID,sc.[Status] as Status,sc.IsActiveFL as IsActiveFL,sc.CreationDate as CreationDate,");
-               //sb.Append("sc.LastUpdatedDate as LastUpdatedDate,sc.CreatedBy as CreatedBy,sc.LastUpdatedBy as LastUpdatedBy FROM StudentCourse sc ");
-               //sb.Append("INNER JOIN Course cour ON sc.CourseID=cour.ID WHERE StudentID = " + studentID + "; ");
-
-
-               sb.Append("SELECT sc.ID as ID,sc.StudentID as StudentID,sc.SemesterCourseID as SemesterCourseID,cour.Name as CourseName,cour.ID as CourseID,");
+             
+               sb.Append("SELECT cour.ID as ID,sc.StudentID as StudentID,sc.SemesterCourseID as SemesterCourseID,cour.Name as CourseName,cour.ID as CourseID,");
                sb.Append("cour.Credits as Credits,cour.IsElectiveAFL as IsElectiveAFL ,cour.IsElectiveBFL as IsElectiveBFL ,sc.SemesterID as SemesterID,sc.[Status] as Status,");
                sb.Append("sc.IsActiveFL as IsActiveFL,sc.CreationDate as CreationDate,sc.LastUpdatedDate as LastUpdatedDate,sc.CreatedBy as CreatedBy,");
                sb.Append("sc.LastUpdatedBy as LastUpdatedBy FROM StudentCourse sc INNER JOIN SemesterCourse SemCour ON sc.SemesterCourseID=SemCour.ID ");
                sb.Append(" JOIN Course cour ON cour.ID = SemCour.CourseID WHERE StudentID =  " + studentID + "; ");
 
-               
+
+               sb1.Append("SELECT sc.ID as ID,sc.StudentID as StudentID,sc.SemesterCourseID as SemesterCourseID ,CourseName,CourseID,Credits,");
+               sb1.Append("ElectiveID,SemesterID,[Status],IsActiveFL,CreationDate,sc.LastUpdatedDate as LastUpdatedDate,sc.CreatedBy as CreatedBy,");
+               sb1.Append("sc.LastUpdatedBy as LastUpdatedBy FROM StudentCourse sc WHERE (CourseID =0 or SemesterID=0)  and StudentID = " + studentID + "; ");
+
+
                using(SqlDataReader dr = SqlHelper.ExecuteReader(connection,CommandType.Text,sb.ToString()))
                {
                    while (dr.Read())
@@ -306,6 +352,47 @@ namespace StudentAdvising.DLL
                        studentCourses.Add(sc);
                    }
                }
+
+
+
+               using (SqlDataReader dr1 = SqlHelper.ExecuteReader(connection, CommandType.Text, sb1.ToString()))
+               {
+                   while (dr1.Read())
+                   {
+
+                       StudentCourse sc = new StudentCourse();
+                       sc.ID = SqlHelper.ToInt32(dr1["ID"]);
+                       sc.StudentID = SqlHelper.ToInt32(dr1["StudentID"]);
+                       sc.SemesterCourseID = SqlHelper.ToInt32(dr1["SemesterCourseID"]);
+                       sc.CourseID = SqlHelper.ToInt32(dr1["CourseID"]);
+                       sc.CourseName = SqlHelper.ToString(dr1["CourseName"]);
+                       sc.Credits = SqlHelper.ToInt32(dr1["Credits"]);
+                       sc.SemesterID = SqlHelper.ToInt32(dr1["SemesterID"]);
+                       sc.Status = SqlHelper.ToString(dr1["Status"]);
+                       sc.ElectiveID = SqlHelper.ToInt32(dr1["ElectiveID"]);
+                       if (SqlHelper.ToInt32(dr1["ElectiveID"]) == 1)
+                       {
+                           sc.IsElectiveAFL = true;
+                       }
+                       else if (SqlHelper.ToInt32(dr1["ElectiveID"]) == 2)
+                       {
+                           sc.IsElectiveBFL = true;
+                       }
+                       else if (SqlHelper.ToInt32(dr1["ElectiveID"]) == 3)
+                       {
+                           sc.GenEd = true;
+                       }
+
+                       sc.IsActiveFL = SqlHelper.ToBool(dr1["IsActiveFL"]);
+                       sc.CreationDate = SqlHelper.ToDateTime(dr1["CreationDate"]);
+                       sc.LastUpdatedDate = SqlHelper.ToDateTime(dr1["LastUpdatedDate"]);
+                       sc.CreatedBy = SqlHelper.ToInt32(dr1["CreatedBy"]);
+                       sc.LastUpdatedBy = SqlHelper.ToInt32(dr1["LastUpdatedBy"]);
+                       studentCourses.Add(sc);
+                   }
+
+               }
+          
            }
            catch (SqlException sqlEx)
            {
@@ -324,132 +411,31 @@ namespace StudentAdvising.DLL
 
            return studentCourses;
        }
-
-       /// <summary>
-       /// This function gives courses that have no prerequistes
-       /// </summary>
-       /// <param name="semesterID"></param>
-       /// <returns></returns>
-        public List<SemesterCourse> GetIndependentSemesterCourses(int semesterID)
+      public List<StudentCourse> GetAvailableCourses(List<StudentCourse> studentCourses)
         {
             SqlConnection connection = SqlHelper.CreateConnection();
-            StringBuilder sb = new StringBuilder();
-            List<SemesterCourse> courses = new List<SemesterCourse>();
 
-            try
-            {
-                sb.Append(" SELECT ID, SemesterID, CourseID, IsActiveFL,CreationDate,LastUpdatedDate,CreatedBy,LastUpdatedBy ");
-                sb.Append(" FROM SemesterCourse WHERE ID NOT IN (SELECT DISTINCT SemesterCourseID FROM SemesterCoursePrerequisite) ");
-
-                using (SqlDataReader dr = SqlHelper.ExecuteReader(connection, CommandType.Text, sb.ToString()))
-                {
-                    while (dr.Read())
-                    {
-                        SemesterCourse semesterCourse = new SemesterCourse();
-                        semesterCourse.ID = SqlHelper.ToInt32(dr["ID"]);
-                        semesterCourse.SemesterID = SqlHelper.ToInt32(dr["SemesterID"]);
-                        semesterCourse.CourseID = SqlHelper.ToInt32(dr["CourseID"]);
-                        semesterCourse.IsActiveFL = SqlHelper.ToBool(dr["IsActiveFL"]);
-                        semesterCourse.CreatedBy = SqlHelper.ToInt32(dr["CreatedBy"]);
-                        semesterCourse.LastUpdatedBy = SqlHelper.ToInt32(dr["LastUpdatedBy"]);
-                        semesterCourse.CreationDate = SqlHelper.ToDateTime(dr["CreationDate"]);
-                        semesterCourse.LastUpdatedDate = SqlHelper.ToDateTime(dr["LastUpdatedDate"]);
-                        courses.Add(semesterCourse);
-                    }
-                }
-            }
-            catch(SqlException sqlEx)
-            {
-                SqlHelper.CloseConnection(connection);
-                throw new Exception("GetIndependentSemesterCourses: " + sqlEx.ToString());
-            }
-            catch (Exception e)
-            {
-                SqlHelper.CloseConnection(connection);
-                throw new Exception("GetIndependentSemesterCourses: " + e.ToString());
-            }
-            finally
-            {
-                SqlHelper.CloseConnection(connection);
-            }
-            return courses;
-        }
-
-       //Delete this Not needed
-        public List<SemesterCourse>  GetStudentRegisteredCoursesProc(int StudentID)
-        {
-            SqlConnection connection = SqlHelper.CreateConnection();
-            try
-            {
-                string spName = "StudentRegisteredCourses";
-
-
-                ArrayList paramList = new ArrayList();
-
-                //Creating SqlParameter objects to fields in student
-                SqlParameter pStudentID = new SqlParameter("@StudentID", SqlDbType.Int);
-                SqlParameter pCourseID = new SqlParameter("@CourseID", SqlDbType.Int);
-                SqlParameter pCourseName = new SqlParameter("@CourseName", SqlDbType.NVarChar);
-                SqlParameter pSemesterID = new SqlParameter("@SemesterID", SqlDbType.Int);
-                SqlParameter pCredits = new SqlParameter("@Credits", SqlDbType.Int);
-                SqlParameter pStatus = new SqlParameter("@Status", SqlDbType.NVarChar);
-                SqlParameter pDepartmentID = new SqlParameter("@DepartmentID", SqlDbType.Int);
-                SqlParameter pIsElectiveFL = new SqlParameter("@IsElectiveFL", SqlDbType.Bit);
-                          
-
-                SqlParameter pIsActiveFL = new SqlParameter("@IsActiveFL", SqlDbType.Bit);
-                SqlParameter pCreatedBy = new SqlParameter("@CreatedBy", SqlDbType.Int);
-                SqlParameter pLastUpdatedBy = new SqlParameter("@LastUpdatedBy", SqlDbType.Int);
-                SqlParameter pCreationDate = new SqlParameter("@CreationDate", SqlDbType.DateTime);
-                SqlParameter pLastUpdatedDate = new SqlParameter("@LastUpdatedDate", SqlDbType.DateTime);
-                pStudentID.Direction = ParameterDirection.InputOutput;
-
-                pStudentID.Value = StudentID;
-
-                SqlHelper.ExecuteNonQuery(connection, CommandType.StoredProcedure, spName, pStudentID, pCourseID, pCourseName, pSemesterID, pCredits,
-                    pStatus,pDepartmentID,pIsElectiveFL, pIsActiveFL, pCreatedBy, pLastUpdatedBy, pCreationDate, pLastUpdatedDate);
-
-                
-            }
-            catch (SqlException sqlEx)
-            {
-                SqlHelper.CloseConnection(connection);
-                throw new Exception("StudentSave: " + sqlEx.ToString());
-            }
-            catch (Exception e)
-            {
-                SqlHelper.CloseConnection(connection);
-                throw new Exception("StudentSave: " + e.ToString());
-            }
-            finally
-            {
-                SqlHelper.CloseConnection(connection);
-            }
-
-            return null;
-        }
-
-
-        public List<StudentCourse> GetAvailableCourses(List<StudentCourse> studentCourses) 
-        {
-            SqlConnection connection = SqlHelper.CreateConnection();
-            
             List<StudentCourse> availableCourses = new List<StudentCourse>();
 
-            string RegisteredCoursesList ="";
-            foreach(StudentCourse studentCourse in studentCourses)
+            string RegisteredCoursesList = "-";
+            foreach (StudentCourse studentCourse in studentCourses)
             {
-                 RegisteredCoursesList = RegisteredCoursesList+","+ studentCourse.SemesterCourseID;
+                RegisteredCoursesList = RegisteredCoursesList + "," + studentCourse.CourseID+"-"+ studentCourse.SemesterID +"-"+studentCourse.Status;
             }
+           
+           RegisteredCoursesList = RegisteredCoursesList.Replace("-,", "");
+           if (RegisteredCoursesList.Length == 1) {
+               RegisteredCoursesList = "";
+           }
 
             try
             {
                 SqlParameter pCourseList = new SqlParameter("@CourseIDs", SqlDbType.NVarChar);
                 SqlParameter pSemester = new SqlParameter("@SemesterID", SqlDbType.Int);
-                string spName = "GetAvailableCoursesForStudent";
+                string spName = "GetAvailableCoursesForStudentCheckingAllPreReqChain";
 
                 //Replace 2 with current semester
-                for (int sem = 2; sem <= 6; sem++)
+                for (int sem = 1; sem <= 12; sem++)
                 {
                     pCourseList.Value = RegisteredCoursesList;
                     //RegisteredCoursesList;
@@ -471,7 +457,7 @@ namespace StudentAdvising.DLL
 
                             st.SemesterID = SqlHelper.ToInt32(dr["SemesterID"]);
                             st.CourseName = SqlHelper.ToString(dr["CourseName"]);
-
+                            st.Status = "Not Yet";
                             st.CreatedBy = SqlHelper.ToInt32(dr["CreatedBy"]);
                             st.LastUpdatedBy = SqlHelper.ToInt32(dr["LastUpdatedBy"]);
                             st.CreationDate = SqlHelper.ToDateTime(dr["CreationDate"]);
@@ -497,25 +483,114 @@ namespace StudentAdvising.DLL
 
             return availableCourses;
         }
+      public RegisteredAvailableCourseList GetUpdatedRegisteredCoursesList(RegisteredAvailableCourseList RnAList)
+       {
+
+           SqlConnection connection = SqlHelper.CreateConnection();
+
+           List<StudentCourse> availableCourses = new List<StudentCourse>();
+            
+           List<StudentCourse> RegisteredCourses   =   RnAList.registeredCourses;
+           List<StudentCourse> AvailableCourses    =   RnAList.availableCourses;
+           string RegisteredCoursesList = "";
+           foreach (StudentCourse studentCourse in RegisteredCourses)
+           {
+               RegisteredCoursesList = RegisteredCoursesList + studentCourse.SemesterCourseID + ",";
+           }
+
+           if (RegisteredCoursesList != "" && RegisteredCoursesList != null)
+           {
+               try
+               {
+                   SqlParameter pCourseList = new SqlParameter("@CourseIDs", SqlDbType.NVarChar);
+                   SqlParameter pRemovedSemesterCourseID = new SqlParameter("@CheckSemesterCourseID", SqlDbType.Int);
+                   SqlParameter pToRemoveCourseList = new SqlParameter("@ToRemove", SqlDbType.NVarChar, 100);
+
+                   pToRemoveCourseList.Direction = ParameterDirection.Output;
+
+                   string spName = "GetAllDependenciesChain";
+
+                   RegisteredCoursesList = RegisteredCoursesList.Remove(RegisteredCoursesList.Length - 1);
+                   pCourseList.Value = RegisteredCoursesList;
+                   pRemovedSemesterCourseID.Value = RnAList.removedSemesterCourseID;
+
+                   SqlHelper.ExecuteNonQuery(connection, CommandType.StoredProcedure, spName,pRemovedSemesterCourseID, pCourseList, 
+                       pToRemoveCourseList);
+
+                   string ToRemove = SqlHelper.ToString(pToRemoveCourseList.Value);
+                   if(ToRemove!=null && ToRemove!="")
+                   {
+                   string[] toRemoveCourses = ToRemove.Trim(',').Split(',');
 
 
-        public bool SaveStudentRegisteredCourses(List<StudentCourse> studentCourses, int StudentID)
+                   foreach (string semestercourseID in toRemoveCourses)
+                     {
+                       foreach (StudentCourse SC in RegisteredCourses)
+                       {
+                           if (SC.SemesterCourseID == Convert.ToInt32(semestercourseID))
+                           {
+                               RegisteredCourses.Remove(SC);
+                               break;
+                           }
+                       }
+                   }
+                   }
+                   RnAList.registeredCourses = RegisteredCourses;
+
+               }
+
+               catch (SqlException sqlEx)
+               {
+                   SqlHelper.CloseConnection(connection);
+                   throw new Exception("SearchStudent: " + sqlEx.ToString());
+               }
+               catch (Exception Ex)
+               {
+                   SqlHelper.CloseConnection(connection);
+                   throw new Exception("SearchStudent: " + Ex.ToString());
+               }
+
+           }
+           return RnAList;
+       }
+      public RegisteredAvailableCourseList GetStudentRegisteredAndAvailableCourses(int studentID,RegisteredAvailableCourseList RnAList)
         {
 
+            List<StudentCourse> RegisteredCourses   =   RnAList.registeredCourses;
+            List<StudentCourse> AvailableCourses    =   RnAList.availableCourses;
+            if (RnAList.availableCourses == null)
+            {
+                RegisteredCourses = GetStudentRegisteredCourses(studentID);
+                AvailableCourses = GetAvailableCourses(RegisteredCourses);
+                RnAList.availableCourses = AvailableCourses;
+                RnAList.registeredCourses = RegisteredCourses;
+                return RnAList;
+            }
+            else
+            {
+                RnAList =  GetUpdatedRegisteredCoursesList(RnAList);
+                RnAList.availableCourses = GetAvailableCourses(RnAList.registeredCourses);
+
+            }
+
+            return RnAList;
+        }
+      public bool SaveStudentRegisteredCourses(List<StudentCourse> studentCourses, int StudentID)
+        {
             SqlConnection connection = SqlHelper.CreateConnection();
             StringBuilder sb = new StringBuilder();
             StringBuilder deleteStudentCourses = new StringBuilder();
             
             try
             {
-                sb.Append("INSERT INTO StudentCourse(StudentID,CourseID,SemesterCourseID,GenEdCourseName,SemesterID,");
+                sb.Append("INSERT INTO StudentCourse(StudentID,CourseID,SemesterCourseID,CourseName,ElectiveID,SemesterID,");
                 sb.Append("Credits,[Status],IsActiveFL,CreationDate,LastUpdatedDate,CreatedBy,LastUpdatedBy) VALUES");
                 foreach (StudentCourse studentCourse in studentCourses)
                 {
-                    
+
                     //sb.Append("SELECT p.ID,p.FirstName,p.LastName,p.MiddleName,p.LSUID,p.Email,p.DeptID,s.JoiningSemesterID,p.IsActiveFL,IsTransferFL,IsApprovedFL");
-                    sb.Append("(" +StudentID + "," + studentCourse.CourseID + "," + studentCourse.SemesterCourseID + ",'" + studentCourse.GenEdCourseName + "'");
-                    sb.Append("," + studentCourse.SemesterID + "," + studentCourse.Credits + ",'" + studentCourse.Status + "','" + studentCourse.IsActiveFL);
+                    sb.Append("(" +StudentID + "," + studentCourse.CourseID + "," + studentCourse.SemesterCourseID + ",'" + studentCourse.CourseName + "'");
+                    sb.Append("," + studentCourse.ElectiveID +","+ studentCourse.SemesterID + "," + studentCourse.Credits + ",'" + studentCourse.Status + "','" + studentCourse.IsActiveFL);
                     sb.Append("','" + DateTime.UtcNow + "','" + DateTime.UtcNow + "'," + StudentID + "," + StudentID);
                     sb.Append("),");
                     
@@ -532,15 +607,90 @@ namespace StudentAdvising.DLL
             {
                 
             }
-            
-
-
-            
-            
-
             return true;
         }
+      public List<StudentCourse> OverRideCourses(int studentID , int SemesterID)
+      {
+          SqlConnection connection = SqlHelper.CreateConnection();
+          StringBuilder sb = new StringBuilder();
+          List<StudentCourse> studentCourses = new List<StudentCourse>();
 
-     
+          try
+          {
+              sb.Append("SELECT SC.ID AS SemesterCourseID,C.ID AS CourseID,C.Name AS CourseName,SC.SemesterID AS SemesterID ,C.Credits AS Credits, ");
+              sb.Append("IsElectiveAFL,IsElectiveBFL FROM SemesterCourse SC INNER JOIN Course C ON SC.CourseID = C.ID WHERE C.ID NOT IN");
+              sb.Append("(SELECT CourseID FROM StudentCourse WHERE StudentID = "+studentID);
+              sb.Append(") AND SemesterID ="+SemesterID);
+              
+              using (SqlDataReader dr = SqlHelper.ExecuteReader(connection, CommandType.Text, sb.ToString()))
+              {
+                  while (dr.Read())
+                  {
+                      StudentCourse sc = new StudentCourse();
+                      sc.SemesterCourseID = SqlHelper.ToInt32(dr["SemesterCourseID"]);
+                      sc.CourseID = SqlHelper.ToInt32(dr["CourseID"]);
+                      sc.CourseName = SqlHelper.ToString(dr["CourseName"]);
+                      sc.Credits = SqlHelper.ToInt32(dr["Credits"]);
+                      sc.SemesterID = SqlHelper.ToInt32(dr["SemesterID"]);
+                      sc.IsElectiveAFL = SqlHelper.ToBool(dr["IsElectiveAFL"]);
+                      sc.IsElectiveBFL = SqlHelper.ToBool(dr["IsElectiveBFL"]);
+                      studentCourses.Add(sc);
+                  }
+              }
+         }
+          catch (SqlException sqlEx)
+          {
+              SqlHelper.CloseConnection(connection);
+              throw new Exception("GetStudentDetails: " + sqlEx.ToString());
+          }
+          catch (Exception e)
+          {
+              SqlHelper.CloseConnection(connection);
+              throw new Exception("GetStudentDetails: " + e.ToString());
+          }
+          finally
+          {
+              SqlHelper.CloseConnection(connection);
+          }
+
+          return studentCourses;
+
+      }
+      public bool OverRideCourse(int advisorID, StudentCourse sc)
+      {
+          SqlConnection connection = SqlHelper.CreateConnection();
+          StringBuilder sb = new StringBuilder();
+
+          try
+          {
+              //Creating SqlParameter objects to fields in student
+              sb.Append("INSERT INTO StudentCourse(StudentID,CourseID,SemesterCourseID,CourseName,ElectiveID,SemesterID,");
+              sb.Append("Credits,[Status],IsActiveFL,CreationDate,LastUpdatedDate,CreatedBy,LastUpdatedBy) VALUES");
+              sb.Append("(" + sc.StudentID + "," + sc.CourseID + ","+sc.SemesterCourseID+",'" + sc.CourseName + "'");
+              sb.Append(","+sc.ElectiveID+"," +sc.SemesterID + "," + sc.Credits + ",'Pending','" + sc.IsActiveFL);
+              sb.Append("','" + DateTime.UtcNow + "','" + DateTime.UtcNow + "'," + advisorID + "," + advisorID);
+              sb.Append(")");
+
+
+              SqlHelper.ExecuteNonQuery(connection, CommandType.Text, sb.ToString());
+          }
+          catch (SqlException sqlEx)
+          {
+              SqlHelper.CloseConnection(connection);
+              throw new Exception("GetStudentDetails: " + sqlEx.ToString());
+          }
+          catch (Exception e)
+          {
+              SqlHelper.CloseConnection(connection);
+              throw new Exception("GetStudentDetails: " + e.ToString());
+          }
+          finally
+          {
+              SqlHelper.CloseConnection(connection);
+          }
+
+          return true;
+      }
+
     }
 }

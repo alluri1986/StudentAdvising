@@ -18,6 +18,12 @@ namespace StudentAdvising.Common
         [DataMember]
         public int year { get; set; }
 
+        [DataMember]
+        public DateTime startDate { get; set; }
+
+        [DataMember]
+        public DateTime endDate { get; set; }
+
 
 
     }

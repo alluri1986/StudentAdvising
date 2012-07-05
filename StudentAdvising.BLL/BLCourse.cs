@@ -28,7 +28,7 @@ namespace StudentAdvising.BLL
             {
                 course.CreationDate = DateTime.UtcNow;
                 course.LastUpdatedDate = DateTime.UtcNow;
-                GetDLCourse().SaveCourse(course);
+                course = GetDLCourse().SaveCourse(course);
             }
             catch (Exception ex)
             {
@@ -37,14 +37,19 @@ namespace StudentAdvising.BLL
             return course;
         }
 
-        public List<CoursePrerequisite> SaveCoursePrerequisite(List<CoursePrerequisite> coursePrerequisite)
+        public List<Course> GetCourseList()
+        {
+
+            return GetDLCourse().GetCourses();
+        }
+
+        public List<CoursePrerequisite> SaveCoursePrerequisite(int CourseID,List<CoursePrerequisite> coursePrerequisite)
         {
             try
             {
-
                 //coursePrerequisite.CreationDate = DateTime.UtcNow;
                 //coursePrerequisite.LastUpdatedDate = DateTime.UtcNow;
-                GetDLCourse().SaveCoursePrerequisite(coursePrerequisite);
+                GetDLCourse().SaveCoursePrerequisite(CourseID,coursePrerequisite);
             }
             catch (Exception ex)
             {
@@ -54,6 +59,10 @@ namespace StudentAdvising.BLL
 
         }
 
+        public List<CoursePrerequisite> GetCoursePreRequisites(int CourseID)
+        {
+            return GetDLCourse().GetCoursePreRequisites(CourseID);
+        }
        
 
     }

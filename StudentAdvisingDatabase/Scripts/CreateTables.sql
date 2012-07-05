@@ -14,7 +14,7 @@ CREATE TABLE LuDepartment
 
 CREATE TABLE LuSemester
 (
-	ID int PRIMARY KEY IDENTITY(1,1),
+	ID int PRIMARY KEY IDENTITY(0,1),
 	Name nvarchar(500) NOT NULL,
 	[Year] int NOT NULL,
 	[Description] nvarchar(200) NULL,
@@ -112,6 +112,7 @@ CREATE TABLE Person
 CREATE TABLE Faculty
 (
 	PersonID int PRIMARY KEY FOREIGN KEY REFERENCES Person(ID),
+	[Role] int ,
 	IsActiveFL bit DEFAULT 1 NOT NULL,
 	CreationDate datetime DEFAULT GETUTCDATE() NOT NULL,
 	LastUpdatedDate datetime DEFAULT GETUTCDATE() NOT NULL,
@@ -141,7 +142,8 @@ CREATE TABLE StudentCourse
 	StudentID int FOREIGN KEY REFERENCES Student(PersonID),
 	CourseID int FOREIGN KEY REFERENCES SemesterCourse(ID),
 	SemesterCourseID int, 
-	GenEdCourseName nvarchar(10),
+	CourseName nvarchar(15),
+	ElectiveID int,
 	SemesterID int NOT NULL FOREIGN KEY REFERENCES LuSemester(ID),
 	Credits int NOT NULL,
 	[Status] nvarchar(10) NOT NULL,
@@ -152,4 +154,10 @@ CREATE TABLE StudentCourse
 	LastUpdatedBy int NOT NULL,
 )
 
+
+CREATE TABLE LuCourseStatus
+(
+	ID int IDENTITY(1,1) PRIMARY KEY,
+	Status nvarchar(15) 
+)
 ----

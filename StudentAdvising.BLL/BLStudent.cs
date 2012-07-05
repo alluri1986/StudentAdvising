@@ -42,6 +42,13 @@ namespace StudentAdvising.BLL
             return student;
         }
 
+        public Student GetStudent(int studentID)
+        {
+            return GetDLStudent().GetStudent(studentID);
+
+        }
+
+
          public List<Student> SearchStudent(string lastName, string email)
         {
             try
@@ -56,6 +63,21 @@ namespace StudentAdvising.BLL
 
         }
 
+
+         public bool AddTransferedCourse(int StudentID, Course course)
+         {
+             dlStudent = GetDLStudent();
+             return dlStudent.AddTransferedCourse(StudentID, course);
+         }
+
+
+         public List<StudentCourse> GetTransferedCourses(int StudentID)
+         {
+             dlStudent = GetDLStudent();
+             return dlStudent.GetTransferedCourses(StudentID);
+         }
+
+
          public List<StudentCourse> GetStudentRegisteredCourses(int studentID)
          {
              dlStudent = GetDLStudent();
@@ -69,14 +91,32 @@ namespace StudentAdvising.BLL
              return dlStudent.GetAvailableCourses(studentRegisteredCourses);
          }
 
+
+         public RegisteredAvailableCourseList GetStudentRegisteredAndAvailableCourses(int studentID, RegisteredAvailableCourseList RnAList)
+         {
+             dlStudent = new DLStudent();
+             return dlStudent.GetStudentRegisteredAndAvailableCourses(studentID, RnAList);
+         }
+
          public bool SaveStudentRegisteredCourses(List<StudentCourse> studentRegisteredCourses, int StudentID)
 
          {
              dlStudent = new DLStudent();
              return dlStudent.SaveStudentRegisteredCourses(studentRegisteredCourses, StudentID);
-         
+         }
+
+         public List<StudentCourse> OverRideCourses(int studentID, int SemesterID)
+         {
+              dlStudent = new DLStudent();
+              return dlStudent.OverRideCourses(studentID, SemesterID);
+
          }
 
 
+         public bool OverRideCourse(int advisorID, StudentCourse sc)
+         {
+             dlStudent = new DLStudent();
+             return dlStudent.OverRideCourse(advisorID, sc);
+         }
     }
 }

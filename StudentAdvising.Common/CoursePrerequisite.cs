@@ -29,7 +29,12 @@ namespace StudentAdvising.Common
         public int PreReqID { get; set; }
 
         [DataMember]
-        public bool IsDependencyFL { get; set; }       
+        public bool IsDependencyFL { get; set; }
+
+        [DataMember]
+        public string PreReqCourseName { get; set; }   
+
+
 
     }
 }
